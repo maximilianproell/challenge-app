@@ -21,8 +21,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Pin
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.RocketLaunch
 import androidx.compose.material3.BottomSheetScaffold
@@ -31,7 +29,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SheetState
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -39,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
@@ -48,7 +50,6 @@ import challengeapp.composeapp.generated.resources.Res
 import challengeapp.composeapp.generated.resources.settings
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.map.ChallengesMap
 import ui.profile.ProfileScreen
 
@@ -84,7 +85,15 @@ fun HomeScreenContent(
 ) {
     val navigator = LocalNavigator.currentOrThrow
 
+    val scaffoldSheetState = rememberBottomSheetScaffoldState(
+        SheetState(
+            skipPartiallyExpanded = false,
+            density = LocalDensity.current, initialValue = SheetValue.PartiallyExpanded,
+            skipHiddenState = true
+        )
+    )
     BottomSheetScaffold(
+        scaffoldState = scaffoldSheetState,
         sheetContent = {
             Column(
                 modifier = Modifier
