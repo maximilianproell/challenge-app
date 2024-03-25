@@ -73,7 +73,6 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        buildConfigField(type = "String", name = "MAPS_API_KEY", value = mapsApiKey)
         manifestPlaceholders["MAPS_API_KEY"] = mapsApiKey
     }
     packaging {

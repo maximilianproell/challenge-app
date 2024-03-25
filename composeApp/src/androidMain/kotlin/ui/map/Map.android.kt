@@ -6,11 +6,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.challenge.app.BuildConfig
-import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
@@ -23,9 +22,10 @@ actual fun ChallengesMap() {
         modifier = Modifier.fillMaxSize(),
         cameraPositionState = cameraPositionState,
         contentPadding = WindowInsets.navigationBars.asPaddingValues(),
-        googleMapOptionsFactory = {
-            GoogleMapOptions()
-                .zoomControlsEnabled(false)
-        }
+        uiSettings = MapUiSettings(
+            compassEnabled = false,
+            mapToolbarEnabled = false,
+            zoomControlsEnabled = false,
+        ),
     )
 }
