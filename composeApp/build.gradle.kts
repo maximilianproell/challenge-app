@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.serialization)
 }
 
 kotlin {
@@ -29,25 +30,42 @@ kotlin {
     }
     
     sourceSets {
-        
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
 
             // Google Maps
             implementation(libs.google.maps)
+
+            // Ktor
+            implementation(libs.ktor.client.okhttp)
+        }
+        iosMain.dependencies {
+            // Ktor
+            implementation(libs.ktor.client.darwin)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
-            implementation(compose.material) // TODO check, why this is needed for iOS
+            //implementation(compose.material) // TODO check, why this is needed for iOS
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(compose.materialIconsExtended)
 
+            // Voyager navigation library
             implementation(libs.bundles.voyager)
+
+            // Supabase
+            implementation(project.dependencies.platform(libs.supabase.bom))
+            implementation(libs.bundles.supabase)
+
+            // Ktor
+            implementation(libs.ktor.client.core)
+
+            // Kermit logger
+            implementation(libs.kermit)
         }
     }
 }

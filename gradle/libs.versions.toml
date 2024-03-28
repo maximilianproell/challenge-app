@@ -16,6 +16,9 @@ junit = "4.13.2"
 kotlin = "1.9.22"
 voyager = "1.0.0"
 google-maps = "4.3.3"
+supabase = "2.2.3"
+ktor = "2.3.9"
+kermit = "2.0.3"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -37,12 +40,21 @@ voyager-tabNavigator = { module = "cafe.adriel.voyager:voyager-tab-navigator", v
 voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 google-maps = { module = "com.google.maps.android:maps-compose", version.ref = "google-maps" }
+supabase-bom = { module = "io.github.jan-tennert.supabase:bom", version.ref = "supabase" }
+supabase-storage = { module = "io.github.jan-tennert.supabase:storage-kt" }
+supabase-postgrest = { module = "io.github.jan-tennert.supabase:postgrest-kt" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 
 [bundles]
 voyager = ["voyager-navigator", "voyager-screenModel", "voyager-bottomSheetNavigator", "voyager-tabNavigator", "voyager-transitions", "voyager-koin"]
+supabase = ["supabase-storage", "supabase-postgrest"]
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
