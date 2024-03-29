@@ -1,12 +1,13 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import org.gradle.initialization.Environment
-import java.io.FileInputStream
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.serialization)
+    alias(libs.plugins.sqldelight)
+    alias(libs.plugins.buildKonfig)
 }
 
 kotlin {
@@ -39,10 +40,16 @@ kotlin {
 
             // Ktor
             implementation(libs.ktor.client.okhttp)
+
+            // SQLDelight
+            implementation(libs.sqldelight.android)
         }
         iosMain.dependencies {
             // Ktor
             implementation(libs.ktor.client.darwin)
+
+            // SQLDelight
+            implementation(libs.sqldelight.native)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -66,6 +73,9 @@ kotlin {
 
             // Kermit logger
             implementation(libs.kermit)
+
+            // SQLDelight
+            implementation(libs.sqldelight.coroutines)
         }
     }
 }
@@ -109,6 +119,24 @@ android {
     }
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
+    }
+}
+
+sqldelight {
+    databases {
+        create("ChallengeAppDB") {
+            packageName.set("com.challenge.app")
+        }
+    }
+}
+
+buildkonfig {
+    packageName = "com.challenge.app"
+
+    val supabaseApiKey = gradleLocalProperties(rootDir).getProperty("SUPABASE_API_KEY")
+
+    defaultConfigs {
+        buildConfigField(STRING, "SUPABASE_API_KEY", supabaseApiKey)
     }
 }
 
