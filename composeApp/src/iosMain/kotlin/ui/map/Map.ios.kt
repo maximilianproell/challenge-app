@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.interop.UIKitView
+import domain.model.Challenge
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.CoreLocation.CLLocationCoordinate2DMake
 import platform.MapKit.MKMapView
@@ -11,7 +12,7 @@ import platform.MapKit.MKPointAnnotation
 
 @Composable
 @OptIn(ExperimentalForeignApi::class)
-actual fun ChallengesMap() {
+actual fun ChallengesMap(challenges: List<Challenge>) {
     UIKitView(
         modifier = Modifier.fillMaxSize(),
         factory = {

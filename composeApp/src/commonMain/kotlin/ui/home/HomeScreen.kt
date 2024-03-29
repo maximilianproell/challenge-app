@@ -48,6 +48,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import challengeapp.composeapp.generated.resources.Res
 import challengeapp.composeapp.generated.resources.settings
+import domain.model.Challenge
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import ui.map.ChallengesMap
@@ -56,6 +57,7 @@ import ui.profile.ProfileScreen
 
 data class HomeScreenState(
     val isChallengeInProgress: Boolean = false,
+    val challenges: List<Challenge> = emptyList(),
 )
 
 
@@ -115,7 +117,7 @@ fun HomeScreenContent(
         sheetPeekHeight = 180.dp,
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            ChallengesMap()
+            ChallengesMap(homeScreenState.challenges)
 
             ProfileButton(
                 modifier = Modifier
