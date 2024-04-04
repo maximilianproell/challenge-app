@@ -45,6 +45,9 @@ kotlin {
             implementation(libs.sqldelight.android)
         }
         iosMain.dependencies {
+            // For some reason, this is needed for iOS to successfully build.
+            implementation(compose.material)
+
             // Ktor
             implementation(libs.ktor.client.darwin)
 
@@ -55,7 +58,6 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
-            //implementation(compose.material) // TODO check, why this is needed for iOS
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
@@ -76,6 +78,9 @@ kotlin {
 
             // SQLDelight
             implementation(libs.sqldelight.coroutines)
+
+            // For some reason, this is needed for iOS
+            implementation(libs.stately.common)
         }
     }
 }
