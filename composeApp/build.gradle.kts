@@ -43,6 +43,10 @@ kotlin {
 
             // SQLDelight
             implementation(libs.sqldelight.android)
+
+            // Camera and barcode scanner
+            implementation(libs.bundles.android.camerax)
+            implementation(libs.mlkit.barcode.scanning)
         }
         iosMain.dependencies {
             // For some reason, these dependencies are needed for iOS to successfully build.
