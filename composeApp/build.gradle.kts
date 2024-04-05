@@ -47,6 +47,9 @@ kotlin {
             // Camera and barcode scanner
             implementation(libs.bundles.android.camerax)
             implementation(libs.mlkit.barcode.scanning)
+
+            // Android permissions for compose
+            implementation(libs.accompanist.permissions)
         }
         iosMain.dependencies {
             // For some reason, these dependencies are needed for iOS to successfully build.

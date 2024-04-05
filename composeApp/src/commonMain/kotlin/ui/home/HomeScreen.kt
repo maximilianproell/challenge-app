@@ -51,6 +51,7 @@ import challengeapp.composeapp.generated.resources.settings
 import domain.model.Challenge
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
+import ui.camera.CameraScreen
 import ui.map.ChallengesMap
 import ui.profile.ProfileScreen
 
@@ -67,12 +68,15 @@ object HomeScreen : Screen {
     override fun Content() {
         val screenModel = rememberScreenModel { HomeScreenModel() }
         val screenState by screenModel.state.collectAsState()
+        val navigator = LocalNavigator.currentOrThrow
 
         HomeScreenContent(
             homeScreenState = screenState,
             onAcceptChallengeClick = screenModel::onChallengeAccepted,
             onGetMeThereClick = {},
-            onCompleteClick = {}
+            onCompleteClick = {
+                navigator.push(CameraScreen)
+            }
         )
     }
 }

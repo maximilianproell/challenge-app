@@ -10,7 +10,7 @@ androidx-core-ktx = "1.12.0"
 androidx-espresso-core = "3.5.1"
 androidx-material = "1.11.0"
 androidx-test-junit = "1.1.5"
-compose = "1.6.4"
+compose = "1.6.5"
 compose-plugin = "1.6.1"
 junit = "4.13.2"
 kotlin = "1.9.22"
@@ -25,6 +25,7 @@ buildkonfig = "0.15.1"
 mlKitBarcode = "17.2.0"
 mlKitVision = "1.3.0-beta02"
 cameraX = "1.3.2"
+accompanist = "0.35.0-alpha"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -64,6 +65,7 @@ kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
 sqldelight-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
+accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
 
 [bundles]
 voyager = ["voyager-navigator", "voyager-screenModel", "voyager-bottomSheetNavigator", "voyager-tabNavigator", "voyager-transitions", "voyager-koin"]
