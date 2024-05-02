@@ -22,7 +22,7 @@ class ChallengeRemoteDataSourceImpl : ChallengeRemoteDataSource {
     }
 
     override suspend fun getAllChallenges(): List<ChallengeDto> {
-        val list = supabase.from("challenges").select().decodeList<ChallengeDto>()
+        val list = supabase.from("quests").select().decodeList<ChallengeDto>()
         Logger.withTag(this::class.simpleName ?: "").d { "Challenges from supabase: $list" }
         return list
     }
