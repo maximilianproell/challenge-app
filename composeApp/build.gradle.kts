@@ -102,7 +102,7 @@ android {
         buildConfig = true
     }
 
-    val mapsApiKey = gradleLocalProperties(rootDir).getProperty("MAPS_API_KEY")
+    val mapsApiKey = gradleLocalProperties(rootDir, providers).getProperty("MAPS_API_KEY")
 
     defaultConfig {
         applicationId = "com.challenge.app"
@@ -143,7 +143,7 @@ sqldelight {
 buildkonfig {
     packageName = "com.challenge.app"
 
-    val supabaseApiKey = gradleLocalProperties(rootDir).getProperty("SUPABASE_API_KEY")
+    val supabaseApiKey = gradleLocalProperties(rootDir, providers).getProperty("SUPABASE_API_KEY")
 
     defaultConfigs {
         buildConfigField(STRING, "SUPABASE_API_KEY", supabaseApiKey)
