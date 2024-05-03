@@ -32,7 +32,7 @@ object ProfileScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
+        //val navigator = LocalNavigator.currentOrThrow
 
         Scaffold(
             topBar = {
@@ -41,7 +41,7 @@ object ProfileScreen : Screen {
                         Text("Profile")
                     },
                     navigationIcon = {
-                        IconButton(onClick = navigator::pop) {
+                        IconButton(onClick = {}) {
                             PlatformBackArrow()
                         }
                     }

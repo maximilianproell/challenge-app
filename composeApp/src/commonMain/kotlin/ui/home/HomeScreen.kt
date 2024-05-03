@@ -36,6 +36,7 @@ import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -62,23 +63,42 @@ data class HomeScreenState(
 )
 
 
+// TODO: remove this class and refactor everything to native navigation.
 object HomeScreen : Screen {
 
     @Composable
     override fun Content() {
         val screenModel = rememberScreenModel { HomeScreenModel() }
         val screenState by screenModel.state.collectAsState()
-        val navigator = LocalNavigator.currentOrThrow
+        //val navigator = LocalNavigator.currentOrThrow
 
         HomeScreenContent(
             homeScreenState = screenState,
             onAcceptChallengeClick = screenModel::onChallengeAccepted,
             onGetMeThereClick = {},
             onCompleteClick = {
-                navigator.push(CameraScreen)
-            }
+                //navigator.push(CameraScreen)
+            },
+            onProfileClick = {}
         )
     }
+}
+
+@Composable
+fun HomeScreen(
+    onCompleteChannengeClick: () -> Unit,
+    onProfileClick: () -> Unit,
+) {
+    val screenModel = remember { HomeScreenModel() }
+    val screenState by screenModel.state.collectAsState()
+
+    HomeScreenContent(
+        homeScreenState = screenState,
+        onAcceptChallengeClick = screenModel::onChallengeAccepted,
+        onGetMeThereClick = {},
+        onCompleteClick = onCompleteChannengeClick,
+        onProfileClick = onProfileClick,
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -87,10 +107,9 @@ fun HomeScreenContent(
     homeScreenState: HomeScreenState,
     onAcceptChallengeClick: () -> Unit,
     onGetMeThereClick: () -> Unit,
-    onCompleteClick: () -> Unit
+    onCompleteClick: () -> Unit,
+    onProfileClick: () -> Unit,
 ) {
-    val navigator = LocalNavigator.currentOrThrow
-
     val scaffoldSheetState = rememberBottomSheetScaffoldState(
         SheetState(
             skipPartiallyExpanded = false,
@@ -128,9 +147,7 @@ fun HomeScreenContent(
                     .windowInsetsPadding(WindowInsets.statusBars)
                     .padding(16.dp)
                     .align(Alignment.TopEnd),
-                onClick = {
-                    navigator.push(ProfileScreen)
-                }
+                onClick = onProfileClick,
             )
         }
     }

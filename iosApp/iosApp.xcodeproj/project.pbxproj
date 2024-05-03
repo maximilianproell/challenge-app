@@ -10,6 +10,10 @@
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
+		27103FA22BDAE82F009A3DC3 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 27103FA12BDAE82F009A3DC3 /* CodeScanner */; };
+		59C89374184233C23702A53D /* CameraScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C890201CD4CA67DCA6755E /* CameraScreenView.swift */; };
+		59C89462AAF359D39CC55600 /* ProfileScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C8962D4E2C9F8FB5F60311 /* ProfileScreenView.swift */; };
+		59C894CAC0A5EEB53681C575 /* IOSCameraScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C89F0E166E95A1681C52E7 /* IOSCameraScreenViewModel.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
@@ -17,7 +21,10 @@
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
-		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		59C890201CD4CA67DCA6755E /* CameraScreenView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraScreenView.swift; sourceTree = "<group>"; };
+		59C8962D4E2C9F8FB5F60311 /* ProfileScreenView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileScreenView.swift; sourceTree = "<group>"; };
+		59C89F0E166E95A1681C52E7 /* IOSCameraScreenViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOSCameraScreenViewModel.swift; sourceTree = "<group>"; };
+		7555FF7B242A565900829871 /* iosApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = iosApp.app; path = ChallengeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB3632DC29227652001CCB65 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
@@ -28,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27103FA22BDAE82F009A3DC3 /* CodeScanner in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +83,9 @@
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
+				59C890201CD4CA67DCA6755E /* CameraScreenView.swift */,
+				59C8962D4E2C9F8FB5F60311 /* ProfileScreenView.swift */,
+				59C89F0E166E95A1681C52E7 /* IOSCameraScreenViewModel.swift */,
 			);
 			path = iosApp;
 			sourceTree = "<group>";
@@ -105,6 +116,7 @@
 			);
 			name = iosApp;
 			packageProductDependencies = (
+				27103FA12BDAE82F009A3DC3 /* CodeScanner */,
 			);
 			productName = iosApp;
 			productReference = 7555FF7B242A565900829871 /* iosApp.app */;
@@ -135,6 +147,7 @@
 			);
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
+				27103FA02BDAE82F009A3DC3 /* XCRemoteSwiftPackageReference "CodeScanner" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -185,6 +198,9 @@
 			files = (
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				59C89374184233C23702A53D /* CameraScreenView.swift in Sources */,
+				59C89462AAF359D39CC55600 /* ProfileScreenView.swift in Sources */,
+				59C894CAC0A5EEB53681C575 /* IOSCameraScreenViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,6 +409,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		27103FA02BDAE82F009A3DC3 /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/CodeScanner";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		27103FA12BDAE82F009A3DC3 /* CodeScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27103FA02BDAE82F009A3DC3 /* XCRemoteSwiftPackageReference "CodeScanner" */;
+			productName = CodeScanner;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7555FF73242A565900829871 /* Project object */;
 }

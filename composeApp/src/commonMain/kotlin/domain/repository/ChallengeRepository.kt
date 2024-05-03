@@ -7,4 +7,7 @@ interface ChallengeRepository {
 
     fun observeVisibleChallenges(): Flow<List<Challenge>>
 
+    suspend fun activateChallenge(challenge: Challenge, activationCode: String)
+
+    suspend fun completeChallenge(challengeId: String, completionCode: String)
 }

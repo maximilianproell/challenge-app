@@ -37,4 +37,12 @@ class ChallengeRepositoryImpl: ChallengeRepository {
             )
         }
     }
+
+    override suspend fun activateChallenge(challenge: Challenge, activationCode: String) {
+        // TODO: implement
+    }
+
+    override suspend fun completeChallenge(challengeId: String, completionCode: String) {
+        // TODO: implement
+    }
 }
