@@ -16,7 +16,7 @@ struct HomeScreenView: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> UIViewController {
         HomeScreenViewControllerKt.HomeScreenViewController(
-            onCompleteChannengeClick: onOpenCamera,
+            onCompleteChallengeClick: onOpenCamera,
             onProfileClick: onOpenProfile
         )
     }
@@ -26,7 +26,7 @@ struct HomeScreenView: UIViewControllerRepresentable {
 }
 
 enum ScreenDestination: String, CaseIterable {
-    case home, qrCodeScanner, profile
+    case qrCodeScanner, profile
 }
 
 struct ContentView: View {
@@ -52,8 +52,6 @@ struct ContentView: View {
                         CameraScreenView()
                     case .profile:
                         ProfileScreenView()
-                    case .home:
-                        CameraScreenView() // TODO: replace
                     }
                 }
 

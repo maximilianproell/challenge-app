@@ -15,7 +15,6 @@ compose-plugin = "1.6.10-rc01"
 junit = "4.13.2"
 kotlin = "1.9.23"
 stately = "2.0.5"
-voyager = "1.0.0"
 google-maps = "4.3.3"
 supabase = "2.2.3"
 ktor = "2.3.9"
@@ -51,12 +50,6 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 stately-common = { module = "co.touchlab:stately-common", version.ref = "stately" }
-voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
-voyager-screenModel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
-voyager-bottomSheetNavigator = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager" }
-voyager-tabNavigator = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
-voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
-voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 google-maps = { module = "com.google.maps.android:maps-compose", version.ref = "google-maps" }
 supabase-bom = { module = "io.github.jan-tennert.supabase:bom", version.ref = "supabase" }
 supabase-storage = { module = "io.github.jan-tennert.supabase:storage-kt" }
@@ -74,7 +67,6 @@ compose-destinations-ksp = { group = "io.github.raamcosta.compose-destinations",
 lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "kmp-viewmodel" }
 
 [bundles]
-voyager = ["voyager-navigator", "voyager-screenModel", "voyager-bottomSheetNavigator", "voyager-tabNavigator", "voyager-transitions", "voyager-koin"]
 supabase = ["supabase-storage", "supabase-postgrest"]
 android-camerax = ["androidx-camera-core", "androidx-camera-camera2", "androidx-camera-lifecycle", "androidx-camera-view", "androidx-camera-extensions", "androidx-camera-mlkit-vision"]
 

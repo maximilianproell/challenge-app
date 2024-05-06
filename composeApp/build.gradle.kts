@@ -58,7 +58,7 @@ kotlin {
         }
         iosMain.dependencies {
             // For some reason, these dependencies are needed for iOS to successfully build.
-            implementation(compose.material)
+            //implementation(compose.material)
             implementation(libs.stately.common)
 
             // Ktor
@@ -75,9 +75,6 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(compose.materialIconsExtended)
-
-            // Voyager navigation library
-            implementation(libs.bundles.voyager)
 
             // Supabase
             implementation(project.dependencies.platform(libs.supabase.bom))
