@@ -11,6 +11,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -18,17 +20,25 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun ProfileScreenContent(modifier: Modifier) {
+
+    val viewModel: ProfileScreenViewModel = viewModel {
+        ProfileScreenViewModel()
+    }
+
+    val screenState by viewModel.screenState.collectAsState()
+
     Column(
         modifier = modifier.padding(16.dp)
     ) {
-        Text("Max Mustermann", style = MaterialTheme.typography.headlineLarge)
+        Text(screenState.userName, style = MaterialTheme.typography.headlineLarge)
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Text("Level 3", fontWeight = FontWeight.Bold)
+        Text(screenState.level, fontWeight = FontWeight.Bold)
         ProgressBar(
             progressPercent = .8f,
             barColor = MaterialTheme.colorScheme.primaryContainer,
@@ -39,6 +49,11 @@ fun ProfileScreenContent(modifier: Modifier) {
         )
     }
 }
+
+data class ProfileScreenState(
+    val userName: String = "",
+    val level: String = "",
+)
 
 @Composable
 fun ProgressBar(
