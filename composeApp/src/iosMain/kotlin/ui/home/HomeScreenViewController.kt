@@ -1,13 +1,17 @@
 package ui.home
 import androidx.compose.ui.window.ComposeUIViewController
 import platform.UIKit.UIViewController
+import ui.theme.ChallengeAppTheme
 
 fun HomeScreenViewController(
-    onCompleteChannengeClick: () -> Unit,
+    onCompleteChallengeClick: () -> Unit,
     onProfileClick: () -> Unit,
 ): UIViewController = ComposeUIViewController {
-    HomeScreen(
-        onCompleteChannengeClick = onCompleteChannengeClick,
-        onProfileClick = onProfileClick,
-    )
+    ChallengeAppTheme {
+        HomeScreenContent(
+            onCompleteClick = onCompleteChallengeClick,
+            onProfileClick = onProfileClick,
+            onGetMeThereClick = {}
+        )
+    }
 }

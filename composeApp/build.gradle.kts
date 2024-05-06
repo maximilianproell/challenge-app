@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.serialization)
     alias(libs.plugins.sqldelight)
     alias(libs.plugins.buildKonfig)
+    alias(libs.plugins.ksp)
 }
 
 kotlin {
@@ -50,6 +51,10 @@ kotlin {
 
             // Android permissions for compose
             implementation(libs.accompanist.permissions)
+
+            // Compose destinations navigation framework
+            implementation(libs.compose.destinations.core)
+            configurations["ksp"].dependencies.add(libs.compose.destinations.ksp.get())
         }
         iosMain.dependencies {
             // For some reason, these dependencies are needed for iOS to successfully build.
@@ -86,6 +91,9 @@ kotlin {
 
             // SQLDelight
             implementation(libs.sqldelight.coroutines)
+
+            // KMP ViewModel
+            implementation(libs.lifecycle.viewmodel)
         }
     }
 }

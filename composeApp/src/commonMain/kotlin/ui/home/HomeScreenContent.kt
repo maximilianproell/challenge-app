@@ -43,18 +43,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import challengeapp.composeapp.generated.resources.Res
 import challengeapp.composeapp.generated.resources.settings
 import domain.model.Challenge
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
-import ui.camera.CameraScreen
 import ui.map.ChallengesMap
-import ui.profile.ProfileScreen
 
 
 data class HomeScreenState(
@@ -62,54 +55,16 @@ data class HomeScreenState(
     val challenges: List<Challenge> = emptyList(),
 )
 
-
-// TODO: remove this class and refactor everything to native navigation.
-object HomeScreen : Screen {
-
-    @Composable
-    override fun Content() {
-        val screenModel = rememberScreenModel { HomeScreenModel() }
-        val screenState by screenModel.state.collectAsState()
-        //val navigator = LocalNavigator.currentOrThrow
-
-        HomeScreenContent(
-            homeScreenState = screenState,
-            onAcceptChallengeClick = screenModel::onChallengeAccepted,
-            onGetMeThereClick = {},
-            onCompleteClick = {
-                //navigator.push(CameraScreen)
-            },
-            onProfileClick = {}
-        )
-    }
-}
-
-@Composable
-fun HomeScreen(
-    onCompleteChannengeClick: () -> Unit,
-    onProfileClick: () -> Unit,
-) {
-    val screenModel = remember { HomeScreenModel() }
-    val screenState by screenModel.state.collectAsState()
-
-    HomeScreenContent(
-        homeScreenState = screenState,
-        onAcceptChallengeClick = screenModel::onChallengeAccepted,
-        onGetMeThereClick = {},
-        onCompleteClick = onCompleteChannengeClick,
-        onProfileClick = onProfileClick,
-    )
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreenContent(
-    homeScreenState: HomeScreenState,
-    onAcceptChallengeClick: () -> Unit,
     onGetMeThereClick: () -> Unit,
     onCompleteClick: () -> Unit,
     onProfileClick: () -> Unit,
 ) {
+    val viewModel = remember { HomeScreenViewModel() }
+    val screenState by viewModel.screenState.collectAsState()
+
     val scaffoldSheetState = rememberBottomSheetScaffoldState(
         SheetState(
             skipPartiallyExpanded = false,
@@ -126,13 +81,13 @@ fun HomeScreenContent(
                     .windowInsetsPadding(WindowInsets.navigationBars),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                if (homeScreenState.isChallengeInProgress) {
+                if (screenState.isChallengeInProgress) {
                     AcceptedChallengePlaceholder(
                         onGetMeThereClick, onCompleteClick
                     )
                 } else {
                     ChallengeToAcceptPlaceholder(
-                        onAcceptChallengeClick = onAcceptChallengeClick
+                        onAcceptChallengeClick = viewModel::onChallengeAccepted
                     )
                 }
             }
@@ -140,7 +95,7 @@ fun HomeScreenContent(
         sheetPeekHeight = 180.dp,
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            ChallengesMap(homeScreenState.challenges)
+            ChallengesMap(screenState.challenges)
 
             ProfileButton(
                 modifier = Modifier
@@ -214,7 +169,6 @@ private fun ColumnScope.AcceptedChallengePlaceholder(
     }
 }
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 private fun ProfileButton(
     modifier: Modifier = Modifier,

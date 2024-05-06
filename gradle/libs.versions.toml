@@ -11,7 +11,7 @@ androidx-espresso-core = "3.5.1"
 androidx-material = "1.12.0"
 androidx-test-junit = "1.1.5"
 compose = "1.6.7"
-compose-plugin = "1.6.2"
+compose-plugin = "1.6.10-rc01"
 junit = "4.13.2"
 kotlin = "1.9.23"
 stately = "2.0.5"
@@ -26,6 +26,9 @@ mlKitBarcode = "17.2.0"
 mlKitVision = "1.3.0-beta02"
 cameraX = "1.3.3"
 accompanist = "0.35.0-alpha"
+compose-destinations = "2.1.0-beta03"
+ksp = "1.9.23-1.0.20"
+kmp-viewmodel = "2.8.0-beta02"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -66,6 +69,9 @@ sqldelight-android = { module = "app.cash.sqldelight:android-driver", version.re
 sqldelight-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanist" }
+compose-destinations-core = { group = "io.github.raamcosta.compose-destinations", name = "core", version.ref = "compose-destinations" }
+compose-destinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "compose-destinations" }
+lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "kmp-viewmodel" }
 
 [bundles]
 voyager = ["voyager-navigator", "voyager-screenModel", "voyager-bottomSheetNavigator", "voyager-tabNavigator", "voyager-transitions", "voyager-koin"]
@@ -80,3 +86,4 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

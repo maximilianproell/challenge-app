@@ -1,4 +1,4 @@
-package ui.camera
+package ui.scanner
 
 import android.Manifest
 import android.net.Uri
@@ -14,11 +14,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import co.touchlab.kermit.Logger
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
@@ -26,13 +26,16 @@ import com.google.accompanist.permissions.rememberPermissionState
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootGraph
 
-private val logger = Logger.withTag("CameraScreen")
+private val logger = Logger.withTag("QrCodeScannerScreen")
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-actual fun QrCodeScanner(
-    //  onQrCodeScanned: (Barcode) -> Unit,
+@Destination<RootGraph>
+fun QrCodeScannerScreen(
+    //onQrCodeScanned: (Barcode) -> Unit,
 ) {
     val currentContext = LocalContext.current
     val currentLifecycleOwner = LocalLifecycleOwner.current

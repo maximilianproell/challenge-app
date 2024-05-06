@@ -1,12 +1,12 @@
 package com.challenge.app
 
-import App
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.generated.NavGraphs
+import ui.theme.ChallengeAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,13 +15,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            App()
+            ChallengeAppTheme {
+                DestinationsNavHost(navGraph = NavGraphs.root)
+            }
         }
     }
-}
-
-@Preview
-@Composable
-fun AppAndroidPreview() {
-    App()
 }
