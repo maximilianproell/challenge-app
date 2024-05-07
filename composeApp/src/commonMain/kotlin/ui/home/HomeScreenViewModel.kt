@@ -2,16 +2,17 @@ package ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import data.repository.ChallengeRepositoryImpl
+import domain.repository.ChallengeRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class HomeScreenViewModel : ViewModel() {
+class HomeScreenViewModel : ViewModel(), KoinComponent {
 
-    // TODO: inject repo.
-    private val challengesRepository = ChallengeRepositoryImpl()
+    private val challengesRepository: ChallengeRepository by inject()
 
     private val _screenState = MutableStateFlow(HomeScreenState())
     val screenState = _screenState.asStateFlow()

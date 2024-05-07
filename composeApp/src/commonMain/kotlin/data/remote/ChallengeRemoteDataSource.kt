@@ -13,7 +13,6 @@ interface ChallengeRemoteDataSource {
 
 class ChallengeRemoteDataSourceImpl : ChallengeRemoteDataSource {
 
-    // TODO: inject via DI framework
     private val supabase = createSupabaseClient(
         supabaseUrl = "https://eixvhrxtnjbbosjdcarz.supabase.co",
         supabaseKey = BuildKonfig.SUPABASE_API_KEY,

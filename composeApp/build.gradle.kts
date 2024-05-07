@@ -55,6 +55,9 @@ kotlin {
             // Compose destinations navigation framework
             implementation(libs.compose.destinations.core)
             configurations["ksp"].dependencies.add(libs.compose.destinations.ksp.get())
+
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.navigation)
         }
         iosMain.dependencies {
             // For some reason, these dependencies are needed for iOS to successfully build.
@@ -91,6 +94,10 @@ kotlin {
 
             // KMP ViewModel
             implementation(libs.lifecycle.viewmodel)
+
+            // Koin DI framework
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.core)
         }
     }
 }

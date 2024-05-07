@@ -1,5 +1,6 @@
 package data.repository
 
+import data.remote.ChallengeRemoteDataSource
 import data.remote.ChallengeRemoteDataSourceImpl
 import domain.model.Challenge
 import domain.model.GeoLocation
@@ -7,10 +8,9 @@ import domain.repository.ChallengeRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class ChallengeRepositoryImpl: ChallengeRepository {
-
-    // TODO: Inject
-    val challengeRemoteDataSource = ChallengeRemoteDataSourceImpl()
+class ChallengeRepositoryImpl(
+    private val challengeRemoteDataSource: ChallengeRemoteDataSource
+): ChallengeRepository {
 
     // TODO: Implement actual cashing.
     override fun observeVisibleChallenges(): Flow<List<Challenge>> {
