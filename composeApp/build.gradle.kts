@@ -6,9 +6,9 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.serialization)
-    alias(libs.plugins.sqldelight)
     alias(libs.plugins.buildKonfig)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -42,9 +42,6 @@ kotlin {
             // Ktor
             implementation(libs.ktor.client.okhttp)
 
-            // SQLDelight
-            implementation(libs.sqldelight.android)
-
             // Camera and barcode scanner
             implementation(libs.bundles.android.camerax)
             implementation(libs.mlkit.barcode.scanning)
@@ -66,9 +63,6 @@ kotlin {
 
             // Ktor
             implementation(libs.ktor.client.darwin)
-
-            // SQLDelight
-            implementation(libs.sqldelight.native)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -89,15 +83,17 @@ kotlin {
             // Kermit logger
             implementation(libs.kermit)
 
-            // SQLDelight
-            implementation(libs.sqldelight.coroutines)
-
             // KMP ViewModel
             implementation(libs.lifecycle.viewmodel)
 
             // Koin DI framework
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
+
+            // Room database
+            implementation(libs.room.runtime)
+            implementation(libs.androidx.sqlite.bundled)
+            configurations["ksp"].dependencies.add(libs.room.compiler.get())
         }
     }
 }
@@ -144,12 +140,8 @@ android {
     }
 }
 
-sqldelight {
-    databases {
-        create("ChallengeAppDB") {
-            packageName.set("com.challenge.app")
-        }
-    }
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 buildkonfig {

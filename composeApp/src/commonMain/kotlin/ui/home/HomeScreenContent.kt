@@ -43,6 +43,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import challengeapp.composeapp.generated.resources.Res
 import challengeapp.composeapp.generated.resources.settings
 import domain.model.Challenge
@@ -62,7 +63,7 @@ fun HomeScreenContent(
     onCompleteClick: () -> Unit,
     onProfileClick: () -> Unit,
 ) {
-    val viewModel = remember { HomeScreenViewModel() }
+    val viewModel = viewModel { HomeScreenViewModel() }
     val screenState by viewModel.screenState.collectAsState()
 
     val scaffoldSheetState = rememberBottomSheetScaffoldState(
