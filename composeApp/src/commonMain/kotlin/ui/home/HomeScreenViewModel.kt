@@ -2,6 +2,7 @@ package ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import co.touchlab.kermit.Logger
 import domain.repository.ChallengeRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,11 +18,13 @@ class HomeScreenViewModel : ViewModel(), KoinComponent {
     private val _screenState = MutableStateFlow(HomeScreenState())
     val screenState = _screenState.asStateFlow()
 
+    private val logger = Logger.withTag("HomeScreenViewModel")
+
     init {
         viewModelScope.launch {
             challengesRepository.observeVisibleChallenges().collect { challenges ->
                 _screenState.update {
-                    it.copy(challenges = challenges)
+                    it.copy(quests = challenges)
                 }
             }
         }

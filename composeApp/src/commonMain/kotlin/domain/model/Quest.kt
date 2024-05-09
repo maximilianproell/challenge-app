@@ -1,6 +1,6 @@
 package domain.model
 
-data class Challenge(
+data class Quest(
     val id: String,
     val category: String,
     val name: String,
@@ -10,5 +10,4 @@ data class Challenge(
     val xp: Int,
     val timeToComplete: Int?,
     val activationGeoLocation: GeoLocation,
-
 )

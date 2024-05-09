@@ -1,8 +1,7 @@
 package data.repository
 
 import data.remote.ChallengeRemoteDataSource
-import data.remote.ChallengeRemoteDataSourceImpl
-import domain.model.Challenge
+import domain.model.Quest
 import domain.model.GeoLocation
 import domain.repository.ChallengeRepository
 import kotlinx.coroutines.flow.Flow
@@ -13,13 +12,13 @@ class ChallengeRepositoryImpl(
 ): ChallengeRepository {
 
     // TODO: Implement actual cashing.
-    override fun observeVisibleChallenges(): Flow<List<Challenge>> {
+    override fun observeVisibleChallenges(): Flow<List<Quest>> {
         return flow {
             val list = challengeRemoteDataSource.getAllChallenges()
             emit(
                 list.map {
                     val (latitude, longitude) = it.activationGeoLocation.split(",").map { it.dropLast(1).toDouble() }
-                    Challenge(
+                    Quest(
                         id = it.id,
                         category = it.category,
                         name = it.nameEn,
@@ -38,7 +37,7 @@ class ChallengeRepositoryImpl(
         }
     }
 
-    override suspend fun activateChallenge(challenge: Challenge, activationCode: String) {
+    override suspend fun activateChallenge(quest: Quest, activationCode: String) {
         // TODO: implement
     }
 

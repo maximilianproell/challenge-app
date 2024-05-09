@@ -13,10 +13,10 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
-import domain.model.Challenge
+import domain.model.Quest
 
 @Composable
-actual fun ChallengesMap(challenges: List<Challenge>) {
+actual fun ChallengesMap(quests: List<Quest>) {
     val berlin = LatLng(52.52000660, 13.40495400)
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(berlin, 10f)
@@ -31,15 +31,15 @@ actual fun ChallengesMap(challenges: List<Challenge>) {
             zoomControlsEnabled = false,
         ),
     ) {
-        challenges.forEach { challenge: Challenge ->
+        quests.forEach { quest: Quest ->
             AdvancedMarker(
                 state = MarkerState(
                     position = LatLng(
-                        challenge.activationGeoLocation.latitude,
-                        challenge.activationGeoLocation.longitude
+                        quest.activationGeoLocation.latitude,
+                        quest.activationGeoLocation.longitude
                     ),
                 ),
-                title = challenge.name
+                title = quest.name
             )
         }
     }

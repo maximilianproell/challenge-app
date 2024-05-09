@@ -1,7 +1,7 @@
 package ui.map
 
 import androidx.compose.runtime.Composable
-import domain.model.Challenge
+import domain.model.Quest
 
 @Composable
-expect fun ChallengesMap(challenges: List<Challenge>)
+expect fun ChallengesMap(quests: List<Quest>)

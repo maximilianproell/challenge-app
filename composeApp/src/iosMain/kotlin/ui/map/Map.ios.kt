@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.interop.UIKitView
-import domain.model.Challenge
+import domain.model.Quest
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.CoreLocation.CLLocationCoordinate2DMake
 import platform.MapKit.MKMapCamera.Companion.cameraLookingAtCenterCoordinate
@@ -13,7 +13,7 @@ import platform.MapKit.MKPointAnnotation
 
 @Composable
 @OptIn(ExperimentalForeignApi::class)
-actual fun ChallengesMap(challenges: List<Challenge>) {
+actual fun ChallengesMap(quests: List<Quest>) {
     UIKitView(
         modifier = Modifier.fillMaxSize(),
         factory = {
@@ -32,14 +32,14 @@ actual fun ChallengesMap(challenges: List<Challenge>) {
             }
         },
         update = { mapView ->
-            challenges.forEach { challenge: Challenge ->
+            quests.forEach { quest: Quest ->
                 val coordinates = CLLocationCoordinate2DMake(
-                    latitude = challenge.activationGeoLocation.latitude,
-                    longitude = challenge.activationGeoLocation.longitude
+                    latitude = quest.activationGeoLocation.latitude,
+                    longitude = quest.activationGeoLocation.longitude
                 )
                 val mapAnnotation = MKPointAnnotation()
                 mapAnnotation.setCoordinate(coordinates)
-                mapAnnotation.setTitle(challenge.name)
+                mapAnnotation.setTitle(quest.name)
                 mapView.addAnnotation(mapAnnotation)
             }
         }
