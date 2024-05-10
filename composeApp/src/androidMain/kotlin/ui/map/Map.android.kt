@@ -16,7 +16,10 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import domain.model.Quest
 
 @Composable
-actual fun ChallengesMap(quests: List<Quest>) {
+actual fun ChallengesMap(
+    quests: List<Quest>,
+    onQuestClick: (Quest) -> Unit,
+) {
     val berlin = LatLng(52.52000660, 13.40495400)
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(berlin, 10f)
@@ -39,7 +42,11 @@ actual fun ChallengesMap(quests: List<Quest>) {
                         quest.activationGeoLocation.longitude
                     ),
                 ),
-                title = quest.name
+                title = quest.name,
+                onClick = {
+                    onQuestClick(quest)
+                    false
+                }
             )
         }
     }

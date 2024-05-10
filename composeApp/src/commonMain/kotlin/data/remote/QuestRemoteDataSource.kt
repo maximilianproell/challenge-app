@@ -2,16 +2,16 @@ package data.remote
 
 import co.touchlab.kermit.Logger
 import com.challenge.app.BuildKonfig
-import data.remote.model.ChallengeDto
+import data.remote.model.QuestDto
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
 
-interface ChallengeRemoteDataSource {
-    suspend fun getAllChallenges(): List<ChallengeDto>
+interface QuestRemoteDataSource {
+    suspend fun getAllQuests(): List<QuestDto>
 }
 
-class ChallengeRemoteDataSourceImpl : ChallengeRemoteDataSource {
+class QuestRemoteDataSourceImpl : QuestRemoteDataSource {
 
     private val supabase = createSupabaseClient(
         supabaseUrl = "https://eixvhrxtnjbbosjdcarz.supabase.co",
@@ -20,9 +20,9 @@ class ChallengeRemoteDataSourceImpl : ChallengeRemoteDataSource {
         install(Postgrest)
     }
 
-    override suspend fun getAllChallenges(): List<ChallengeDto> {
-        val list = supabase.from("quests").select().decodeList<ChallengeDto>()
-        Logger.withTag(this::class.simpleName ?: "").d { "Challenges from supabase: $list" }
+    override suspend fun getAllQuests(): List<QuestDto> {
+        val list = supabase.from("quests").select().decodeList<QuestDto>()
+        Logger.withTag(this::class.simpleName ?: "").d { "Quests from supabase: $list" }
         return list
     }
 }

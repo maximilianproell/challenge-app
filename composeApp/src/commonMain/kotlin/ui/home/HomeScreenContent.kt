@@ -51,7 +51,7 @@ import ui.map.ChallengesMap
 
 
 data class HomeScreenState(
-    val isChallengeInProgress: Boolean = false,
+    val selectedQuest: Quest? = null,
     val quests: List<Quest> = emptyList(),
 )
 
@@ -81,13 +81,12 @@ fun HomeScreenContent(
                     .windowInsetsPadding(WindowInsets.navigationBars),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                if (screenState.isChallengeInProgress) {
-                    AcceptedChallengePlaceholder(
-                        onGetMeThereClick, onCompleteClick
-                    )
-                } else {
-                    ChallengeToAcceptPlaceholder(
-                        onAcceptChallengeClick = viewModel::onChallengeAccepted
+                screenState.selectedQuest?.let { selectedQuest ->
+                    QuestModalBottomSheetContent(
+                        quest = selectedQuest,
+                        onAcceptQuestClick = viewModel::onQuestAccepted,
+                        onGetMeThereClick = onCompleteClick,
+                        onCompleteClick = onCompleteClick
                     )
                 }
             }
@@ -95,7 +94,10 @@ fun HomeScreenContent(
         sheetPeekHeight = 180.dp,
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            ChallengesMap(screenState.quests)
+            ChallengesMap(
+                quests = screenState.quests,
+                onQuestClick = viewModel::onQuestSelected,
+            )
 
             ProfileButton(
                 modifier = Modifier
@@ -110,61 +112,50 @@ fun HomeScreenContent(
 
 // TODO: Just a placeholder
 @Composable
-private fun ColumnScope.ChallengeToAcceptPlaceholder(
-    onAcceptChallengeClick: () -> Unit,
-) {
-    Text(
-        text = "Daily Challenge",
-        style = MaterialTheme.typography.headlineMedium
-    )
-    Text(text = "08:32 hours left")
-
-    Spacer(modifier = Modifier.height(16.dp))
-
-    Text(text = "Check out Brandenburger Tor", style = MaterialTheme.typography.headlineSmall)
-    Text(text = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore...")
-
-    Spacer(modifier = Modifier.height(16.dp))
-
-    Button(onClick = onAcceptChallengeClick) {
-        Icon(imageVector = Icons.Default.RocketLaunch, contentDescription = null)
-        Spacer(Modifier.width(8.dp))
-        Text("Accept Challenge!")
-    }
-}
-
-// TODO: Just a placeholder
-@Composable
-private fun ColumnScope.AcceptedChallengePlaceholder(
+private fun ColumnScope.QuestModalBottomSheetContent(
+    quest: Quest,
+    onAcceptQuestClick: (Quest) -> Unit,
     onGetMeThereClick: () -> Unit,
     onCompleteClick: () -> Unit,
 ) {
     Text(
-        text = "Daily Challenge",
+        text = quest.name,
         style = MaterialTheme.typography.headlineMedium
     )
+    // TODO: where does that come from?
     Text(text = "08:32 hours left")
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    Text(text = "Check out Brandenburger Tor", style = MaterialTheme.typography.headlineSmall)
+    Text(text = quest.description, style = MaterialTheme.typography.headlineSmall)
+    // TODO: do we have more text here?
     Text(text = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore...")
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-        Button(onClick = onGetMeThereClick) {
-            Icon(imageVector = Icons.Default.Place, contentDescription = null)
+    // TODO: add string resources
+
+    if (!quest.isCurrentlyActive) {
+        Button(onClick = { onAcceptQuestClick(quest) }) {
+            Icon(imageVector = Icons.Default.RocketLaunch, contentDescription = null)
             Spacer(Modifier.width(8.dp))
-            Text("Get me there!")
+            Text("Challenge accepted!")
         }
+    } else {
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+            Button(onClick = onGetMeThereClick) {
+                Icon(imageVector = Icons.Default.Place, contentDescription = null)
+                Spacer(Modifier.width(8.dp))
+                Text("Get me there!")
+            }
 
-        Spacer(Modifier.width(8.dp))
-
-        Button(onClick = onCompleteClick) {
-            Icon(imageVector = Icons.Default.Check, contentDescription = null)
             Spacer(Modifier.width(8.dp))
-            Text("Complete")
+
+            Button(onClick = onCompleteClick) {
+                Icon(imageVector = Icons.Default.Check, contentDescription = null)
+                Spacer(Modifier.width(8.dp))
+                Text("Complete")
+            }
         }
     }
 }
