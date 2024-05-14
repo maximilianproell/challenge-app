@@ -1,9 +1,9 @@
 package data.repository
 
-import domain.repository.ChallengeRepository
+import domain.repository.QuestsRepository
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class RepositoryHelper : KoinComponent {
-    val challengeRepository: ChallengeRepository by inject()
+    val questsRepository: QuestsRepository by inject()
 }

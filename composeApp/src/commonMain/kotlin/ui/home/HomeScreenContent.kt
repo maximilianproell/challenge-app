@@ -43,11 +43,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import challengeapp.composeapp.generated.resources.Res
-import challengeapp.composeapp.generated.resources.settings
 import domain.model.Quest
+import lequestapp.composeapp.generated.resources.Res
+import lequestapp.composeapp.generated.resources.settings
 import org.jetbrains.compose.resources.stringResource
-import ui.map.ChallengesMap
+import ui.map.QuestsMap
 
 
 data class HomeScreenState(
@@ -94,7 +94,7 @@ fun HomeScreenContent(
         sheetPeekHeight = 180.dp,
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            ChallengesMap(
+            QuestsMap(
                 quests = screenState.quests,
                 onQuestClick = viewModel::onQuestSelected,
             )

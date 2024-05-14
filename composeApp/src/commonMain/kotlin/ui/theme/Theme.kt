@@ -7,7 +7,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 
 @Composable
-fun ChallengeAppTheme(
+fun LeQuestAppTheme(
     content: @Composable () -> Unit
 ) = MaterialTheme(
     colorScheme = if (isSystemInDarkTheme()) DarkColors else LightColors,

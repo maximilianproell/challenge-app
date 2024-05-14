@@ -4,10 +4,9 @@ import data.local.QuestLocalDataSource
 import data.mapper.toDbUpdate
 import data.mapper.toDomain
 import data.mapper.toEntity
-import data.mapper.toGeoLocation
 import data.remote.QuestRemoteDataSource
 import domain.model.Quest
-import domain.repository.ChallengeRepository
+import domain.repository.QuestsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
@@ -16,9 +15,9 @@ import kotlinx.coroutines.flow.map
 class QuestRepositoryImpl(
     private val questRemoteDataSource: QuestRemoteDataSource,
     private val questLocalDataSource: QuestLocalDataSource
-) : ChallengeRepository {
+) : QuestsRepository {
 
-    override fun observeVisibleChallenges(): Flow<List<Quest>> {
+    override fun observeVisibleQuests(): Flow<List<Quest>> {
         return flow {
             val localQuests = questLocalDataSource.getAllQuests()
             emit(localQuests.map { it.toDomain() })
@@ -35,11 +34,11 @@ class QuestRepositoryImpl(
         }
     }
 
-    override suspend fun activateChallenge(quest: Quest, activationCode: String) {
+    override suspend fun activateQuest(quest: Quest, activationCode: String) {
         // TODO: implement
     }
 
-    override suspend fun completeChallenge(challengeId: String, completionCode: String) {
+    override suspend fun completeQuest(questId: String, completionCode: String) {
         // TODO: implement
     }
 }

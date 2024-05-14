@@ -1,4 +1,4 @@
-package com.challenge.app
+package com.lequest.app
 
 import android.app.Application
 import data.di.dataModule

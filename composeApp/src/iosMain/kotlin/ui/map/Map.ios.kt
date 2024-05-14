@@ -16,7 +16,7 @@ private val logger = Logger.withTag("Map.ios.kt")
 
 @Composable
 @OptIn(ExperimentalForeignApi::class)
-actual fun ChallengesMap(
+actual fun QuestsMap(
     quests: List<Quest>,
     onQuestClick: (Quest) -> Unit,
 ) {

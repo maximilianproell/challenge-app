@@ -1,7 +1,7 @@
 package data.remote
 
 import co.touchlab.kermit.Logger
-import com.challenge.app.BuildKonfig
+import com.lequest.app.BuildKonfig
 import data.remote.model.QuestDto
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest

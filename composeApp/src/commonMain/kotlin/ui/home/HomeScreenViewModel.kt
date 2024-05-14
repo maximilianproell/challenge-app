@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.touchlab.kermit.Logger
 import domain.model.Quest
-import domain.repository.ChallengeRepository
+import domain.repository.QuestsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
@@ -15,7 +15,7 @@ import org.koin.core.component.inject
 
 class HomeScreenViewModel : ViewModel(), KoinComponent {
 
-    private val challengesRepository: ChallengeRepository by inject()
+    private val challengesRepository: QuestsRepository by inject()
 
     private val _screenState = MutableStateFlow(HomeScreenState())
     val screenState = _screenState.asStateFlow()
@@ -24,7 +24,7 @@ class HomeScreenViewModel : ViewModel(), KoinComponent {
 
     init {
         viewModelScope.launch {
-            challengesRepository.observeVisibleChallenges()
+            challengesRepository.observeVisibleQuests()
                 .catch {
                     // TODO: display error on screen
                     logger.e { "Error occurred observing the quests: ${it.stackTraceToString()}" }

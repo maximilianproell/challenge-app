@@ -1,4 +1,4 @@
-rootProject.name = "ChallengeApp"
+rootProject.name = "LeQuestApp"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {

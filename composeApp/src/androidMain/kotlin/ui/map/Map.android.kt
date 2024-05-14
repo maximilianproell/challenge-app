@@ -16,7 +16,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import domain.model.Quest
 
 @Composable
-actual fun ChallengesMap(
+actual fun QuestsMap(
     quests: List<Quest>,
     onQuestClick: (Quest) -> Unit,
 ) {

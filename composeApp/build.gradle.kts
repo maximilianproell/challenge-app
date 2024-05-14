@@ -26,7 +26,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ComposeApp"
+            baseName = "LeQuestShared"
             isStatic = true
         }
     }
@@ -99,7 +99,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.challenge.app"
+    namespace = "com.lequest.app"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -113,7 +113,7 @@ android {
     val mapsApiKey = gradleLocalProperties(rootDir, providers).getProperty("MAPS_API_KEY")
 
     defaultConfig {
-        applicationId = "com.challenge.app"
+        applicationId = "com.lequest.app"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -145,7 +145,7 @@ room {
 }
 
 buildkonfig {
-    packageName = "com.challenge.app"
+    packageName = "com.lequest.app"
 
     val supabaseApiKey = gradleLocalProperties(rootDir, providers).getProperty("SUPABASE_API_KEY")
 

@@ -1,4 +1,4 @@
-package com.challenge.app
+package com.lequest.app
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.generated.NavGraphs
-import ui.theme.ChallengeAppTheme
+import ui.theme.LeQuestAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,7 +15,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            ChallengeAppTheme {
+            LeQuestAppTheme {
                 DestinationsNavHost(navGraph = NavGraphs.root)
             }
         }
