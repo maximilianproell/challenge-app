@@ -17,25 +17,21 @@ class QuestRepositoryImpl(
     private val questLocalDataSource: QuestLocalDataSource
 ) : QuestsRepository {
 
-    override fun observeVisibleQuests(): Flow<List<Quest>> {
-        return flow {
-            val localQuests = questLocalDataSource.getAllQuests()
-            emit(localQuests.map { it.toDomain() })
+    override fun observeVisibleQuests(): Flow<List<Quest>> =
+        questLocalDataSource.observeAllQuests().map { list -> list.map { it.toDomain() } }
 
-            val remoteQuests = questRemoteDataSource.getAllQuests()
-            // Insert all quests from remote into DB.
-            questLocalDataSource.insert(remoteQuests.map { it.toEntity() })
-            // Update existing elements (since insert ignores elements with primary key collisions)
-            questLocalDataSource.updateQuestsFromRemote(
-                remoteQuests.map { it.toDbUpdate() }
-            )
-
-            emitAll(questLocalDataSource.observeAllQuests().map { list -> list.map { it.toDomain() } })
-        }
+    override suspend fun updateQuestsFromRemote() {
+        val remoteQuests = questRemoteDataSource.getAllQuests()
+        // Insert all quests from remote into DB.
+        questLocalDataSource.insert(remoteQuests.map { it.toEntity() })
+        // Update existing elements (since insert ignores elements with primary key collisions)
+        questLocalDataSource.updateQuestsFromRemote(
+            remoteQuests.map { it.toDbUpdate() }
+        )
     }
 
     override suspend fun activateQuest(quest: Quest, activationCode: String) {
-        // TODO: implement
+        questLocalDataSource.setQuestToActive(questId = quest.id)
     }
 
     override suspend fun completeQuest(questId: String, completionCode: String) {

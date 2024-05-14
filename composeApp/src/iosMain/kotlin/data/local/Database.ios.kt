@@ -9,7 +9,7 @@ actual class DataBaseFactory {
         val dbFilePath = NSHomeDirectory() + "/$DATABASE_NAME"
         return Room.databaseBuilder<AppDatabase>(
             name = dbFilePath,
-            factory =  { AppDatabase::class.instantiateImpl() }
+            factory = { AppDatabase::class.instantiateImpl() }
         )
     }
 }

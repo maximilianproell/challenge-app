@@ -11,6 +11,7 @@ interface QuestLocalDataSource {
     fun observeAllQuests(): Flow<List<QuestEntity>>
     suspend fun updateQuestsFromRemote(updates: List<QuestRemoteUpdate>)
     suspend fun updateQuestFromRemote(update: QuestRemoteUpdate)
+    suspend fun setQuestToActive(questId: String)
 }
 
 class QuestLocalDataSourceImpl(
@@ -34,5 +35,9 @@ class QuestLocalDataSourceImpl(
 
     override suspend fun updateQuestFromRemote(update: QuestRemoteUpdate) {
         questDao.updateQuestFromRemote(update)
+    }
+
+    override suspend fun setQuestToActive(questId: String) {
+        questDao.setQuestToActive(questId)
     }
 }

@@ -57,8 +57,6 @@ kotlin {
             implementation(libs.koin.androidx.navigation)
         }
         iosMain.dependencies {
-            // For some reason, these dependencies are needed for iOS to successfully build.
-            //implementation(compose.material)
             implementation(libs.stately.common)
 
             // Ktor

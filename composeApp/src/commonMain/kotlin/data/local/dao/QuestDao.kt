@@ -29,4 +29,10 @@ interface QuestDao {
 
     @Update(QuestEntity::class)
     suspend fun updateQuestsFromRemote(questRemoteUpdate: List<QuestRemoteUpdate>)
+
+    @Update
+    suspend fun updateQuest(questEntity: QuestEntity)
+
+    @Query("UPDATE quest_table SET isCurrentlyActive = TRUE WHERE id = :questId")
+    suspend fun setQuestToActive(questId: String)
 }

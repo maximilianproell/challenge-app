@@ -46,6 +46,6 @@ fun QuestEntity.toDomain(): Quest {
         xp = xp,
         timeToComplete = timeToComplete,
         activationGeoLocation = activationGeoLocation,
-        isCurrentlyActive = false,
+        isCurrentlyActive = isCurrentlyActive,
     )
 }

@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import co.touchlab.kermit.Logger
 import domain.model.Quest
 import domain.repository.QuestsRepository
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -15,7 +15,7 @@ import org.koin.core.component.inject
 
 class HomeScreenViewModel : ViewModel(), KoinComponent {
 
-    private val challengesRepository: QuestsRepository by inject()
+    private val questsRepository: QuestsRepository by inject()
 
     private val _screenState = MutableStateFlow(HomeScreenState())
     val screenState = _screenState.asStateFlow()
@@ -24,27 +24,35 @@ class HomeScreenViewModel : ViewModel(), KoinComponent {
 
     init {
         viewModelScope.launch {
-            challengesRepository.observeVisibleQuests()
-                .catch {
-                    // TODO: display error on screen
-                    logger.e { "Error occurred observing the quests: ${it.stackTraceToString()}" }
+            launch {
+                try {
+                    questsRepository.updateQuestsFromRemote()
+                } catch (exception: Exception) {
+                    if (exception is CancellationException) throw exception
+                    logger.e { "Error occurred updating the quests from remote: ${exception.stackTraceToString()}" }
+                    // else TODO: Show some kind of network error so the user knows that data may be stale.
                 }
-                .collect { challenges ->
+            }
+
+            questsRepository.observeVisibleQuests()
+                .collect { quests ->
                     _screenState.update {
-                        it.copy(quests = challenges)
+                        it.copy(quests = quests)
+                    }
+
+                    quests.find { it.isCurrentlyActive }?.let { activeQuest ->
+                        _screenState.update {
+                            it.copy(selectedQuest = activeQuest)
+                        }
                     }
                 }
         }
     }
 
     fun onQuestAccepted(quest: Quest) {
-        // TODO: update quest in data layer (set it to currently active)
-        _screenState.update {
-            it.copy(
-                selectedQuest = quest.copy(
-                    isCurrentlyActive = true,
-                )
-            )
+        viewModelScope.launch {
+            // TODO: activation code should be set?
+            questsRepository.activateQuest(quest = quest, activationCode = "")
         }
     }
 
