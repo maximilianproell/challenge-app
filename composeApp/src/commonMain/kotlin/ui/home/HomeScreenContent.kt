@@ -135,7 +135,7 @@ private fun ColumnScope.QuestModalBottomSheetContent(
 
     // TODO: add string resources
 
-    if (!quest.isCurrentlyActive) {
+    if (quest.activationInfo != null) {
         Button(onClick = { onAcceptQuestClick(quest) }) {
             Icon(imageVector = Icons.Default.RocketLaunch, contentDescription = null)
             Spacer(Modifier.width(8.dp))

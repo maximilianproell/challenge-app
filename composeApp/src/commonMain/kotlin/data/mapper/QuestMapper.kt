@@ -4,6 +4,7 @@ import data.local.entity.QuestEntity
 import data.local.entity.QuestRemoteUpdate
 import data.remote.model.QuestDto
 import domain.model.Quest
+import domain.model.QuestActivationInfo
 
 fun QuestDto.toEntity(): QuestEntity {
     return QuestEntity(
@@ -36,12 +37,12 @@ fun QuestDto.toDbUpdate(): QuestRemoteUpdate {
 
 /**
  * Converts this [QuestEntity] to the corresponding domain model object.
- * @param isCurrentlyActive states if this [Quest] is currently tackled by the user.
- * @param isClickable states if this [Quest] is clickable on the UI. If [isCurrentlyActive] is true,
+ * @param questActivationInfo If not null, this [Quest] is currently tackled by the user.
+ * @param isClickable states if this [Quest] is clickable on the UI. If [questActivationInfo] is non null,
  * this value set here is ignored and the [Quest] is always clickable.
  */
 fun QuestEntity.toDomain(
-    isCurrentlyActive: Boolean,
+    questActivationInfo: QuestActivationInfo?,
     isClickable: Boolean,
 ): Quest {
     return Quest(
@@ -54,7 +55,7 @@ fun QuestEntity.toDomain(
         xp = xp,
         timeToComplete = timeToComplete,
         activationGeoLocation = activationGeoLocation,
-        isCurrentlyActive = isCurrentlyActive,
-        isClickable = if (isCurrentlyActive) true else isClickable,
+        activationInfo = questActivationInfo,
+        isClickable = if (questActivationInfo != null) true else isClickable,
     )
 }

@@ -10,6 +10,10 @@ data class Quest(
     val xp: Int,
     val timeToComplete: Int?,
     val activationGeoLocation: GeoLocation,
-    val isCurrentlyActive: Boolean,
+    val activationInfo: QuestActivationInfo?,
     val isClickable: Boolean,
+)
+
+data class QuestActivationInfo(
+    val activationTimeStamp: Long,
 )

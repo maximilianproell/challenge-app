@@ -8,6 +8,7 @@ import data.mapper.toDomain
 import data.mapper.toEntity
 import data.remote.QuestRemoteDataSource
 import domain.model.Quest
+import domain.model.QuestActivationInfo
 import domain.repository.QuestsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -26,7 +27,9 @@ class QuestRepositoryImpl(
             val isAtLeastOneQuestActive = list.any { it.activeInfo != null }
             list.map {
                 it.questEntity.toDomain(
-                    isCurrentlyActive = it.activeInfo != null,
+                    questActivationInfo = it.activeInfo?.let { activeInfo ->
+                        QuestActivationInfo(activationTimeStamp = activeInfo.startTimestamp)
+                    },
                     // Only clickable, if no other quest is active.
                     isClickable = !isAtLeastOneQuestActive
                 )
