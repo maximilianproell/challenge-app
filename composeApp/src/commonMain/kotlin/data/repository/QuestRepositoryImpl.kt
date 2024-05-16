@@ -2,7 +2,7 @@ package data.repository
 
 import co.touchlab.kermit.Logger
 import data.local.QuestLocalDataSource
-import data.local.entity.QuestEntity
+import data.local.entity.ActiveQuestEntity
 import data.mapper.toDbUpdate
 import data.mapper.toDomain
 import data.mapper.toEntity
@@ -10,9 +10,8 @@ import data.remote.QuestRemoteDataSource
 import domain.model.Quest
 import domain.repository.QuestsRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.datetime.Clock
 
 class QuestRepositoryImpl(
     private val questRemoteDataSource: QuestRemoteDataSource,
@@ -22,12 +21,15 @@ class QuestRepositoryImpl(
     private val logger = Logger.withTag(this::class.simpleName!!)
 
     override fun observeVisibleQuests(): Flow<List<Quest>> =
-        questLocalDataSource.observeAllQuests().map { list ->
-            logger.d { "Got quests from DB: $list" }
-            val isAtLeastOneQuestActive = list.any(QuestEntity::isCurrentlyActive)
+        questLocalDataSource.observeAllQuestsWithActivationState().map { list ->
+            logger.d { "Got quests with activation info from DB: $list" }
+            val isAtLeastOneQuestActive = list.any { it.activeInfo != null }
             list.map {
-                // Only clickable, if no other quest is active.
-                it.toDomain(isClickable = !isAtLeastOneQuestActive)
+                it.questEntity.toDomain(
+                    isCurrentlyActive = it.activeInfo != null,
+                    // Only clickable, if no other quest is active.
+                    isClickable = !isAtLeastOneQuestActive
+                )
             }
         }
 
@@ -42,7 +44,12 @@ class QuestRepositoryImpl(
     }
 
     override suspend fun activateQuest(quest: Quest, activationCode: String) {
-        questLocalDataSource.setQuestToActive(questId = quest.id)
+        questLocalDataSource.setQuestToActive(
+            ActiveQuestEntity(
+                questId = quest.id,
+                startTimestamp = Clock.System.now().toEpochMilliseconds(),
+            )
+        )
     }
 
     override suspend fun completeQuest(questId: String, completionCode: String) {

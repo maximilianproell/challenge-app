@@ -1,7 +1,9 @@
 package data.local.entity
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 import domain.model.GeoLocation
 
 @Entity(tableName = "quest_table")
@@ -16,8 +18,15 @@ data class QuestEntity(
     val timeToComplete: Int?,
     val activationGeoLocation: GeoLocation,
     val wasCompletedByUser: Boolean,
-    // For simplicity, we have this value here. Should be moved to shared prefs at same point
-    val isCurrentlyActive: Boolean,
+)
+
+data class QuestEntityWithActivationInfo(
+    @Embedded val questEntity: QuestEntity,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "questId",
+    )
+    val activeInfo: ActiveQuestEntity?
 )
 
 /**

@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import data.local.entity.QuestEntity
+import data.local.entity.QuestEntityWithActivationInfo
 import data.local.entity.QuestRemoteUpdate
 import kotlinx.coroutines.flow.Flow
 
@@ -17,6 +18,9 @@ interface QuestDao {
 
     @Query("SELECT * FROM quest_table")
     fun observeAllQuests(): Flow<List<QuestEntity>>
+
+    @Query("SELECT * FROM quest_table")
+    fun observeAllQuestsWithActivationState(): Flow<List<QuestEntityWithActivationInfo>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertQuests(quests: List<QuestEntity>)
@@ -32,7 +36,4 @@ interface QuestDao {
 
     @Update
     suspend fun updateQuest(questEntity: QuestEntity)
-
-    @Query("UPDATE quest_table SET isCurrentlyActive = TRUE WHERE id = :questId")
-    suspend fun setQuestToActive(questId: String)
 }

@@ -14,6 +14,9 @@ val localDataModule = module {
     }
     single<QuestLocalDataSource> {
         val appDatabase: AppDatabase = get()
-        QuestLocalDataSourceImpl(questDao = appDatabase.getQuestDao())
+        QuestLocalDataSourceImpl(
+            questDao = appDatabase.getQuestDao(),
+            activeQuestDao = appDatabase.getActiveQuestDao(),
+        )
     }
 }

@@ -17,7 +17,6 @@ fun QuestDto.toEntity(): QuestEntity {
         timeToComplete = timeToComplete,
         activationGeoLocation = activationGeoLocation.toGeoLocation(),
         wasCompletedByUser = false,
-        isCurrentlyActive = false,
     )
 }
 
@@ -37,10 +36,12 @@ fun QuestDto.toDbUpdate(): QuestRemoteUpdate {
 
 /**
  * Converts this [QuestEntity] to the corresponding domain model object.
- * @param isClickable states if this [Quest] is clickable on the UI. If [Quest.isCurrentlyActive] is true,
+ * @param isCurrentlyActive states if this [Quest] is currently tackled by the user.
+ * @param isClickable states if this [Quest] is clickable on the UI. If [isCurrentlyActive] is true,
  * this value set here is ignored and the [Quest] is always clickable.
  */
 fun QuestEntity.toDomain(
+    isCurrentlyActive: Boolean,
     isClickable: Boolean,
 ): Quest {
     return Quest(
