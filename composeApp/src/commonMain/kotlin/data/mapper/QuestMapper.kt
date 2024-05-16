@@ -35,7 +35,14 @@ fun QuestDto.toDbUpdate(): QuestRemoteUpdate {
     )
 }
 
-fun QuestEntity.toDomain(): Quest {
+/**
+ * Converts this [QuestEntity] to the corresponding domain model object.
+ * @param isClickable states if this [Quest] is clickable on the UI. If [Quest.isCurrentlyActive] is true,
+ * this value set here is ignored and the [Quest] is always clickable.
+ */
+fun QuestEntity.toDomain(
+    isClickable: Boolean,
+): Quest {
     return Quest(
         id = id,
         category = category,
@@ -47,5 +54,6 @@ fun QuestEntity.toDomain(): Quest {
         timeToComplete = timeToComplete,
         activationGeoLocation = activationGeoLocation,
         isCurrentlyActive = isCurrentlyActive,
+        isClickable = if (isCurrentlyActive) true else isClickable,
     )
 }

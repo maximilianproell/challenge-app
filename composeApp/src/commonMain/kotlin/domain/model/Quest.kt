@@ -11,4 +11,5 @@ data class Quest(
     val timeToComplete: Int?,
     val activationGeoLocation: GeoLocation,
     val isCurrentlyActive: Boolean,
+    val isClickable: Boolean,
 )

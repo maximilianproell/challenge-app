@@ -43,9 +43,12 @@ actual fun QuestsMap(
                     ),
                 ),
                 title = quest.name,
+                alpha = if (quest.isClickable) 1.0f else .3f,
                 onClick = {
-                    onQuestClick(quest)
-                    false
+                    if (quest.isClickable) {
+                        onQuestClick(quest)
+                        false
+                    } else true
                 }
             )
         }

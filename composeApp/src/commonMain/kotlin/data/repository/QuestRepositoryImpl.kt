@@ -1,6 +1,8 @@
 package data.repository
 
+import co.touchlab.kermit.Logger
 import data.local.QuestLocalDataSource
+import data.local.entity.QuestEntity
 import data.mapper.toDbUpdate
 import data.mapper.toDomain
 import data.mapper.toEntity
@@ -17,8 +19,17 @@ class QuestRepositoryImpl(
     private val questLocalDataSource: QuestLocalDataSource
 ) : QuestsRepository {
 
+    private val logger = Logger.withTag(this::class.simpleName!!)
+
     override fun observeVisibleQuests(): Flow<List<Quest>> =
-        questLocalDataSource.observeAllQuests().map { list -> list.map { it.toDomain() } }
+        questLocalDataSource.observeAllQuests().map { list ->
+            logger.d { "Got quests from DB: $list" }
+            val isAtLeastOneQuestActive = list.any(QuestEntity::isCurrentlyActive)
+            list.map {
+                // Only clickable, if no other quest is active.
+                it.toDomain(isClickable = !isAtLeastOneQuestActive)
+            }
+        }
 
     override suspend fun updateQuestsFromRemote() {
         val remoteQuests = questRemoteDataSource.getAllQuests()
