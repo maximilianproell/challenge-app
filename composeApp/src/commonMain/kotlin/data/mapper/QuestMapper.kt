@@ -38,11 +38,13 @@ fun QuestDto.toDbUpdate(): QuestRemoteUpdate {
 /**
  * Converts this [QuestEntity] to the corresponding domain model object.
  * @param questActivationInfo If not null, this [Quest] is currently tackled by the user.
+ * @param timeLeftToComplete The time in minutes left for the user to finish the quest.
  * @param isClickable states if this [Quest] is clickable on the UI. If [questActivationInfo] is non null,
  * this value set here is ignored and the [Quest] is always clickable.
  */
 fun QuestEntity.toDomain(
     questActivationInfo: QuestActivationInfo?,
+    timeLeftToComplete: Int?,
     isClickable: Boolean,
 ): Quest {
     return Quest(
@@ -53,7 +55,7 @@ fun QuestEntity.toDomain(
         isDaily = isDaily,
         description = description,
         xp = xp,
-        timeToComplete = timeToComplete,
+        timeToComplete = timeLeftToComplete,
         activationGeoLocation = activationGeoLocation,
         activationInfo = questActivationInfo,
         isClickable = if (questActivationInfo != null) true else isClickable,

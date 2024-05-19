@@ -10,9 +10,14 @@ import data.remote.QuestRemoteDataSource
 import domain.model.Quest
 import domain.model.QuestActivationInfo
 import domain.repository.QuestsRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 class QuestRepositoryImpl(
     private val questRemoteDataSource: QuestRemoteDataSource,
@@ -21,17 +26,47 @@ class QuestRepositoryImpl(
 
     private val logger = Logger.withTag(this::class.simpleName!!)
 
+    private val pingFlow = flow {
+        while (true) {
+            emit(Unit)
+            delay(15.seconds)
+        }
+    }
+
     override fun observeVisibleQuests(): Flow<List<Quest>> =
-        questLocalDataSource.observeAllQuestsWithActivationState().map { list ->
+        pingFlow.combine(questLocalDataSource.observeAllQuestsWithActivationState()) { _, list -> list }.map { list ->
             logger.d { "Got quests with activation info from DB: $list" }
             val isAtLeastOneQuestActive = list.any { it.activeInfo != null }
             list.map {
+                val timeLeftToComplete = it.questEntity.timeToComplete?.let { timeToCompleteInMinutes ->
+                    val activationInfo = it.activeInfo
+
+                    if (activationInfo == null) timeToCompleteInMinutes else {
+                        val timePassed =
+                            (Clock.System.now().toEpochMilliseconds() - activationInfo.startTimestamp)
+                                .milliseconds
+                                .inWholeMinutes
+                        (timeToCompleteInMinutes - timePassed).toInt()
+                    }
+                }
+
+                if (timeLeftToComplete != null) {
+                    if (timeLeftToComplete <= 0) {
+                        questLocalDataSource.setQuestToFailed(
+                            activeQuest = ActiveQuestEntity(questId = it.questEntity.id, startTimestamp = 0)
+                        )
+                    }
+                }
+
                 it.questEntity.toDomain(
                     questActivationInfo = it.activeInfo?.let { activeInfo ->
-                        QuestActivationInfo(activationTimeStampMilliseconds = activeInfo.startTimestamp)
+                        QuestActivationInfo(
+                            activationTimeStampMilliseconds = activeInfo.startTimestamp,
+                        )
                     },
                     // Only clickable, if no other quest is active.
-                    isClickable = !isAtLeastOneQuestActive
+                    isClickable = !isAtLeastOneQuestActive,
+                    timeLeftToComplete = timeLeftToComplete,
                 )
             }
         }

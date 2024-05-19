@@ -16,6 +16,7 @@ interface QuestLocalDataSource {
     suspend fun updateQuestsFromRemote(updates: List<QuestRemoteUpdate>)
     suspend fun updateQuestFromRemote(update: QuestRemoteUpdate)
     suspend fun setQuestToActive(activeQuest: ActiveQuestEntity)
+    suspend fun setQuestToFailed(activeQuest: ActiveQuestEntity)
 }
 
 class QuestLocalDataSourceImpl(
@@ -48,5 +49,9 @@ class QuestLocalDataSourceImpl(
 
     override suspend fun setQuestToActive(activeQuest: ActiveQuestEntity) {
         activeQuestDao.insertActiveQuestData(activeQuest)
+    }
+
+    override suspend fun setQuestToFailed(activeQuest: ActiveQuestEntity) {
+        activeQuestDao.deleteActiveQuestData(activeQuest)
     }
 }

@@ -85,6 +85,7 @@ fun HomeScreenContent(
         sheetContent = {
             Column(
                 modifier = Modifier
+                    .fillMaxWidth()
                     .padding(16.dp)
                     .windowInsetsPadding(WindowInsets.navigationBars),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -93,7 +94,7 @@ fun HomeScreenContent(
                     QuestModalBottomSheetContent(
                         quest = selectedQuest,
                         onAcceptQuestClick = viewModel::onQuestAccepted,
-                        onGetMeThereClick = onCompleteClick,
+                        onGetMeThereClick = onGetMeThereClick,
                         onCompleteClick = onCompleteClick
                     )
                 }
@@ -125,28 +126,10 @@ private fun ColumnScope.QuestModalBottomSheetContent(
     onGetMeThereClick: () -> Unit,
     onCompleteClick: () -> Unit,
 ) {
-
-    var timeLeftText by remember { mutableStateOf("") }
-    LaunchedEffect(quest) {
-        while (quest.timeToComplete != null) {
-            val timeToComplete = quest.timeToComplete
-            val activationInfo = quest.activationInfo
-
-            val timeLeft: Int = if (activationInfo == null) timeToComplete else {
-                val timePassed =
-                    (Clock.System.now().toEpochMilliseconds() - activationInfo.activationTimeStampMilliseconds)
-                        .milliseconds
-                        .inWholeMinutes
-                (timeToComplete - timePassed).toInt()
-            }
-
-            val hours = timeLeft / 60
-            val minutes = timeLeft % 60
-            timeLeftText = "${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} hours left"
-
-            // Update every minute.
-            delay(15.seconds)
-        }
+    val timeLeftText = quest.timeToComplete?.let { timeLeft ->
+        val hours = timeLeft / 60
+        val minutes = timeLeft % 60
+        "${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} hours left"
     }
 
     Text(
@@ -154,14 +137,12 @@ private fun ColumnScope.QuestModalBottomSheetContent(
         style = MaterialTheme.typography.headlineMedium
     )
 
-    if (timeLeftText.isNotBlank()) {
+    if (timeLeftText != null) {
         Text(text = timeLeftText)
         Spacer(modifier = Modifier.height(16.dp))
     }
 
     Text(text = quest.description, style = MaterialTheme.typography.headlineSmall)
-    // TODO: do we have more text here?
-    Text(text = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore...")
 
     Spacer(modifier = Modifier.height(16.dp))
 
