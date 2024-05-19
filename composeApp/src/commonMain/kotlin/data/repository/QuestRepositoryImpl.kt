@@ -28,7 +28,7 @@ class QuestRepositoryImpl(
             list.map {
                 it.questEntity.toDomain(
                     questActivationInfo = it.activeInfo?.let { activeInfo ->
-                        QuestActivationInfo(activationTimeStamp = activeInfo.startTimestamp)
+                        QuestActivationInfo(activationTimeStampMilliseconds = activeInfo.startTimestamp)
                     },
                     // Only clickable, if no other quest is active.
                     isClickable = !isAtLeastOneQuestActive

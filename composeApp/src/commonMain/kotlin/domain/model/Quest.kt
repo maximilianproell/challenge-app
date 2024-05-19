@@ -15,5 +15,5 @@ data class Quest(
 )
 
 data class QuestActivationInfo(
-    val activationTimeStamp: Long,
+    val activationTimeStampMilliseconds: Long,
 )

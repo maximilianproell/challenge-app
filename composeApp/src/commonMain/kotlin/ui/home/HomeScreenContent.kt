@@ -34,8 +34,12 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,10 +48,14 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import domain.model.Quest
+import kotlinx.coroutines.delay
+import kotlinx.datetime.Clock
 import lequestapp.composeapp.generated.resources.Res
 import lequestapp.composeapp.generated.resources.settings
 import org.jetbrains.compose.resources.stringResource
 import ui.map.QuestsMap
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 
 data class HomeScreenState(
@@ -110,7 +118,6 @@ fun HomeScreenContent(
     }
 }
 
-// TODO: Just a placeholder
 @Composable
 private fun ColumnScope.QuestModalBottomSheetContent(
     quest: Quest,
@@ -118,14 +125,39 @@ private fun ColumnScope.QuestModalBottomSheetContent(
     onGetMeThereClick: () -> Unit,
     onCompleteClick: () -> Unit,
 ) {
+
+    var timeLeftText by remember { mutableStateOf("") }
+    LaunchedEffect(quest) {
+        while (quest.timeToComplete != null) {
+            val timeToComplete = quest.timeToComplete
+            val activationInfo = quest.activationInfo
+
+            val timeLeft: Int = if (activationInfo == null) timeToComplete else {
+                val timePassed =
+                    (Clock.System.now().toEpochMilliseconds() - activationInfo.activationTimeStampMilliseconds)
+                        .milliseconds
+                        .inWholeMinutes
+                (timeToComplete - timePassed).toInt()
+            }
+
+            val hours = timeLeft / 60
+            val minutes = timeLeft % 60
+            timeLeftText = "${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} hours left"
+
+            // Update every minute.
+            delay(15.seconds)
+        }
+    }
+
     Text(
         text = quest.name,
         style = MaterialTheme.typography.headlineMedium
     )
-    // TODO: where does that come from?
-    Text(text = "08:32 hours left")
 
-    Spacer(modifier = Modifier.height(16.dp))
+    if (timeLeftText.isNotBlank()) {
+        Text(text = timeLeftText)
+        Spacer(modifier = Modifier.height(16.dp))
+    }
 
     Text(text = quest.description, style = MaterialTheme.typography.headlineSmall)
     // TODO: do we have more text here?
@@ -135,7 +167,7 @@ private fun ColumnScope.QuestModalBottomSheetContent(
 
     // TODO: add string resources
 
-    if (quest.activationInfo != null) {
+    if (quest.activationInfo == null) {
         Button(onClick = { onAcceptQuestClick(quest) }) {
             Icon(imageVector = Icons.Default.RocketLaunch, contentDescription = null)
             Spacer(Modifier.width(8.dp))
