@@ -28,6 +28,10 @@ import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
+import com.ramcosta.composedestinations.result.ResultBackNavigator
+import lequestapp.composeapp.generated.resources.Res
+import lequestapp.composeapp.generated.resources.allow_camera_permission
+import org.jetbrains.compose.resources.stringResource
 
 private val logger = Logger.withTag("QrCodeScannerScreen")
 
@@ -35,7 +39,7 @@ private val logger = Logger.withTag("QrCodeScannerScreen")
 @Composable
 @Destination<RootGraph>
 fun QrCodeScannerScreen(
-    //onQrCodeScanned: (Barcode) -> Unit,
+    resultNavigator: ResultBackNavigator<String>
 ) {
     val currentContext = LocalContext.current
     val currentLifecycleOwner = LocalLifecycleOwner.current
@@ -94,12 +98,10 @@ fun QrCodeScannerScreen(
                         val barcode = barcodeResults[0]
                         val uri = Uri.parse(barcode.rawValue.toString())
                         logger.d("Scanned QR Code: $uri")
-                        barcodeScanner.close()
-                        //onQrCodeScanned(barcode)
-                        // TODO: set scheme
-                        /*if (uri.scheme == qrCodeDataFilter) {
-
-                        }*/
+                        if (uri.host == "qr.lequest.gg") {
+                            barcodeScanner.close()
+                            resultNavigator.navigateBack(uri.toString())
+                        }
                     }
                 )
 
@@ -109,6 +111,6 @@ fun QrCodeScannerScreen(
             }
         )
     } else {
-        Text("please allow cameraaa")
+        Text(stringResource(Res.string.allow_camera_permission))
     }
 }
