@@ -40,9 +40,10 @@ class HomeScreenViewModel : ViewModel(), KoinComponent {
                         it.copy(quests = quests)
                     }
 
-                    val activeQuest = quests.find { it.activationInfo != null }
-                    _screenState.update {
-                        it.copy(selectedQuest = activeQuest)
+                    quests.find { it.activationInfo != null }?.let { activeQuest ->
+                        _screenState.update {
+                            it.copy(selectedQuest = activeQuest)
+                        }
                     }
                 }
         }
