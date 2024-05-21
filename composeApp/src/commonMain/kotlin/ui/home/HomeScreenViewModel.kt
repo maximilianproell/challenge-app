@@ -41,9 +41,12 @@ class HomeScreenViewModel : ViewModel(), KoinComponent {
                     }
 
                     quests.find { it.activationInfo != null }?.let { activeQuest ->
-                        _screenState.update {
-                            it.copy(selectedQuest = activeQuest)
-                        }
+                        onQuestSelected(activeQuest)
+                    }
+
+                    // Update selected quest, if present
+                    quests.find { it.id == _screenState.value.selectedQuest?.id }?.let { selectedQuestUpdate ->
+                        onQuestSelected(selectedQuestUpdate)
                     }
                 }
         }
