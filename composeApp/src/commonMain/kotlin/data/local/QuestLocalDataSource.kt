@@ -17,6 +17,7 @@ interface QuestLocalDataSource {
     suspend fun updateQuestFromRemote(update: QuestRemoteUpdate)
     suspend fun setQuestAsCompleted(questId: String)
     suspend fun setQuestToActive(activeQuest: ActiveQuestEntity)
+    suspend fun setQuestToInactive(activeQuest: ActiveQuestEntity)
     suspend fun setQuestToFailed(activeQuest: ActiveQuestEntity)
 }
 
@@ -56,7 +57,12 @@ class QuestLocalDataSourceImpl(
         activeQuestDao.insertActiveQuestData(activeQuest)
     }
 
+    override suspend fun setQuestToInactive(activeQuest: ActiveQuestEntity) {
+        activeQuestDao.deleteActiveQuestData(activeQuest)
+    }
+
     override suspend fun setQuestToFailed(activeQuest: ActiveQuestEntity) {
+        // TODO: Needs to be discussed, if "failed" is actually a state we want to have.
         activeQuestDao.deleteActiveQuestData(activeQuest)
     }
 }

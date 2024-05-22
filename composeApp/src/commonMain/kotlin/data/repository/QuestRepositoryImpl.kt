@@ -37,38 +37,40 @@ class QuestRepositoryImpl(
         pingFlow.combine(questLocalDataSource.observeAllQuestsWithActivationState()) { _, list -> list }.map { list ->
             logger.d { "Got quests with activation info from DB: $list" }
             val isAtLeastOneQuestActive = list.any { it.activeInfo != null }
-            list.map {
-                val timeLeftToComplete = it.questEntity.timeToComplete?.let { timeToCompleteInMinutes ->
-                    val activationInfo = it.activeInfo
+            // Filter out completed and non-visible quests.
+            list.filter { it.questEntity.isVisibleOnMap && !it.questEntity.wasCompletedByUser }
+                .map {
+                    val timeLeftToComplete = it.questEntity.timeToComplete?.let { timeToCompleteInMinutes ->
+                        val activationInfo = it.activeInfo
 
-                    if (activationInfo == null) timeToCompleteInMinutes else {
-                        val timePassed =
-                            (Clock.System.now().toEpochMilliseconds() - activationInfo.startTimestamp)
-                                .milliseconds
-                                .inWholeMinutes
-                        (timeToCompleteInMinutes - timePassed).toInt()
+                        if (activationInfo == null) timeToCompleteInMinutes else {
+                            val timePassed =
+                                (Clock.System.now().toEpochMilliseconds() - activationInfo.startTimestamp)
+                                    .milliseconds
+                                    .inWholeMinutes
+                            (timeToCompleteInMinutes - timePassed).toInt()
+                        }
                     }
-                }
 
-                if (timeLeftToComplete != null) {
-                    if (timeLeftToComplete <= 0) {
-                        questLocalDataSource.setQuestToFailed(
-                            activeQuest = ActiveQuestEntity(questId = it.questEntity.id, startTimestamp = 0)
-                        )
+                    if (timeLeftToComplete != null) {
+                        if (timeLeftToComplete <= 0) {
+                            questLocalDataSource.setQuestToFailed(
+                                activeQuest = ActiveQuestEntity(questId = it.questEntity.id, startTimestamp = 0)
+                            )
+                        }
                     }
-                }
 
-                it.questEntity.toDomain(
-                    questActivationInfo = it.activeInfo?.let { activeInfo ->
-                        QuestActivationInfo(
-                            activationTimeStampMilliseconds = activeInfo.startTimestamp,
-                        )
-                    },
-                    // Only clickable, if no other quest is active.
-                    isClickable = !isAtLeastOneQuestActive,
-                    timeLeftToComplete = timeLeftToComplete,
-                )
-            }
+                    it.questEntity.toDomain(
+                        questActivationInfo = it.activeInfo?.let { activeInfo ->
+                            QuestActivationInfo(
+                                activationTimeStampMilliseconds = activeInfo.startTimestamp,
+                            )
+                        },
+                        // Only clickable, if no other quest is active.
+                        isClickable = !isAtLeastOneQuestActive,
+                        timeLeftToComplete = timeLeftToComplete,
+                    )
+                }
         }
 
     override suspend fun updateQuestsFromRemote() {
@@ -92,5 +94,8 @@ class QuestRepositoryImpl(
 
     override suspend fun completeQuest(questId: String) {
         questLocalDataSource.setQuestAsCompleted(questId)
+        questLocalDataSource.setQuestToInactive(
+            ActiveQuestEntity(questId = questId, startTimestamp = 0)
+        )
     }
 }

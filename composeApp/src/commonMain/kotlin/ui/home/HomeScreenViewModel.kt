@@ -40,13 +40,15 @@ class HomeScreenViewModel : ViewModel(), KoinComponent {
                         it.copy(quests = quests)
                     }
 
+                    // Update selected quest, if present. If there is no quest found from the data source, it will
+                    // be unselected.
+                    val updatedSelectedQuest = quests.find { it.id == _screenState.value.selectedQuest?.id }
+                    onQuestSelected(updatedSelectedQuest)
+
+                    // If there is a currently active quest, we set it here as selected, since no other quest can
+                    // be selected anyways.
                     quests.find { it.activationInfo != null }?.let { activeQuest ->
                         onQuestSelected(activeQuest)
-                    }
-
-                    // Update selected quest, if present
-                    quests.find { it.id == _screenState.value.selectedQuest?.id }?.let { selectedQuestUpdate ->
-                        onQuestSelected(selectedQuestUpdate)
                     }
                 }
         }
@@ -59,7 +61,7 @@ class HomeScreenViewModel : ViewModel(), KoinComponent {
         }
     }
 
-    fun onQuestSelected(quest: Quest) {
+    fun onQuestSelected(quest: Quest?) {
         _screenState.update {
             it.copy(
                 selectedQuest = quest
