@@ -10,6 +10,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import lequestapp.composeapp.generated.resources.Res
+import lequestapp.composeapp.generated.resources.home_error_activation_data_does_not_match
+import lequestapp.composeapp.generated.resources.home_error_activation_data_invalid
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -85,10 +88,18 @@ class HomeScreenViewModel : ViewModel(), KoinComponent {
                         questsRepository.completeQuest(questId = quest.id)
                     }
                 } else {
-                    // TODO: Show error message.
+                    _screenState.update {
+                        it.copy(
+                            errorStringResource = Res.string.home_error_activation_data_does_not_match
+                        )
+                    }
                 }
             } else {
-                // TODO: Invalid data and show error message.
+                _screenState.update {
+                    it.copy(
+                        errorStringResource = Res.string.home_error_activation_data_invalid
+                    )
+                }
             }
         } else {
             // Activation data is expected.
@@ -96,8 +107,20 @@ class HomeScreenViewModel : ViewModel(), KoinComponent {
                 // Valid data.
                 // TODO: Add logic to handle activation of quests.
             } else {
-                // TODO: Invalid data and show error message.
+                _screenState.update {
+                    it.copy(
+                        errorStringResource = Res.string.home_error_activation_data_invalid
+                    )
+                }
             }
+        }
+    }
+
+    fun onErrorMessageDismissed() {
+        _screenState.update {
+            it.copy(
+                errorStringResource = null
+            )
         }
     }
 }

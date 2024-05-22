@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.RocketLaunch
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,35 +33,29 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import domain.model.Quest
-import kotlinx.coroutines.delay
-import kotlinx.datetime.Clock
 import lequestapp.composeapp.generated.resources.Res
 import lequestapp.composeapp.generated.resources.settings
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import ui.map.QuestsMap
-import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
 
 
 data class HomeScreenState(
     val selectedQuest: Quest? = null,
     val quests: List<Quest> = emptyList(),
+    val errorStringResource: StringResource? = null,
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -114,6 +109,22 @@ fun HomeScreenContent(
                     .padding(16.dp)
                     .align(Alignment.TopEnd),
                 onClick = onProfileClick,
+            )
+        }
+
+        screenState.errorStringResource?.let {
+            AlertDialog(
+                onDismissRequest = viewModel::onErrorMessageDismissed,
+                confirmButton = {
+                    TextButton(
+                        onClick = viewModel::onErrorMessageDismissed
+                    ) {
+                        Text(text = "OK")
+                    }
+                },
+                text = {
+                    Text(text = stringResource(it))
+                }
             )
         }
     }
