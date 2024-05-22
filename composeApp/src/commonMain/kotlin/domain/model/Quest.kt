@@ -12,6 +12,7 @@ data class Quest(
     val activationGeoLocation: GeoLocation,
     val activationInfo: QuestActivationInfo?,
     val isClickable: Boolean,
+    val completionData: String,
 )
 
 data class QuestActivationInfo(

@@ -66,11 +66,11 @@ data class HomeScreenState(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreenContent(
+    viewModel: HomeScreenViewModel,
     onGetMeThereClick: () -> Unit,
     onCompleteClick: () -> Unit,
     onProfileClick: () -> Unit,
 ) {
-    val viewModel = viewModel { HomeScreenViewModel() }
     val screenState by viewModel.screenState.collectAsState()
 
     val scaffoldSheetState = rememberBottomSheetScaffoldState(

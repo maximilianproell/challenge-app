@@ -12,7 +12,7 @@ interface QuestsRepository {
      */
     suspend fun updateQuestsFromRemote()
 
-    suspend fun activateQuest(quest: Quest, activationCode: String)
+    suspend fun activateQuest(quest: Quest)
 
-    suspend fun completeQuest(questId: String, completionCode: String)
+    suspend fun completeQuest(questId: String)
 }

@@ -100,7 +100,9 @@ fun QrCodeScannerScreen(
                         logger.d("Scanned QR Code: $uri")
                         if (uri.host == "qr.lequest.gg") {
                             barcodeScanner.close()
-                            resultNavigator.navigateBack(uri.toString())
+                            resultNavigator.navigateBack(
+                                uri.getQueryParameter("c").toString()
+                            )
                         }
                     }
                 )

@@ -81,7 +81,7 @@ class QuestRepositoryImpl(
         )
     }
 
-    override suspend fun activateQuest(quest: Quest, activationCode: String) {
+    override suspend fun activateQuest(quest: Quest) {
         questLocalDataSource.setQuestToActive(
             ActiveQuestEntity(
                 questId = quest.id,
@@ -90,7 +90,7 @@ class QuestRepositoryImpl(
         )
     }
 
-    override suspend fun completeQuest(questId: String, completionCode: String) {
-        // TODO: implement
+    override suspend fun completeQuest(questId: String) {
+        questLocalDataSource.setQuestAsCompleted(questId)
     }
 }

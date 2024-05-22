@@ -17,6 +17,7 @@ data class QuestEntity(
     val xp: Int,
     val timeToComplete: Int?,
     val activationGeoLocation: GeoLocation,
+    val completionData: String,
     val wasCompletedByUser: Boolean,
 )
 
@@ -43,4 +44,5 @@ data class QuestRemoteUpdate(
     val xp: Int,
     val timeToComplete: Int?,
     val activationGeoLocation: GeoLocation,
+    val completionData: String,
 )

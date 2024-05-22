@@ -1,6 +1,7 @@
 package ui.home
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import co.touchlab.kermit.Logger
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
@@ -18,11 +19,15 @@ fun HomeScreen(
     navigator: DestinationsNavigator,
     qrStringResultRecipient: ResultRecipient<QrCodeScannerScreenDestination, String>
 ) {
-    qrStringResultRecipient.onResult { uriString ->
-        Logger.withTag("HomeScreen").d { "Received qr code string on caller site: $uriString" }
+    val viewModel = viewModel { HomeScreenViewModel() }
+
+    qrStringResultRecipient.onResult { qrCodeData ->
+        Logger.withTag("HomeScreen").d { "Received qr code string on caller site: $qrCodeData" }
+        viewModel.onQrCodeScanned(qrCodeData = qrCodeData)
     }
 
     HomeScreenContent(
+        viewModel = viewModel,
         onGetMeThereClick = {
             // TODO
         },

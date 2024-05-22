@@ -18,6 +18,7 @@ fun QuestDto.toEntity(): QuestEntity {
         timeToComplete = timeToComplete,
         activationGeoLocation = activationGeoLocation.toGeoLocation(),
         wasCompletedByUser = false,
+        completionData = completionData,
     )
 }
 
@@ -32,6 +33,7 @@ fun QuestDto.toDbUpdate(): QuestRemoteUpdate {
         xp = xp,
         timeToComplete = timeToComplete,
         activationGeoLocation = activationGeoLocation.toGeoLocation(),
+        completionData = completionData,
     )
 }
 
@@ -59,5 +61,6 @@ fun QuestEntity.toDomain(
         activationGeoLocation = activationGeoLocation,
         activationInfo = questActivationInfo,
         isClickable = if (questActivationInfo != null) true else isClickable,
+        completionData = completionData,
     )
 }

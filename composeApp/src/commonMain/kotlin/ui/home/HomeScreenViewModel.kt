@@ -55,7 +55,7 @@ class HomeScreenViewModel : ViewModel(), KoinComponent {
     fun onQuestAccepted(quest: Quest) {
         viewModelScope.launch {
             // TODO: activation code should be set?
-            questsRepository.activateQuest(quest = quest, activationCode = "")
+            questsRepository.activateQuest(quest = quest)
         }
     }
 
@@ -64,6 +64,38 @@ class HomeScreenViewModel : ViewModel(), KoinComponent {
             it.copy(
                 selectedQuest = quest
             )
+        }
+    }
+
+    /**
+     * Handles the activation or completion of a quest.
+     * @param qrCodeData The data scanned from the QR code.
+     */
+    fun onQrCodeScanned(qrCodeData: String) {
+        val quest = _screenState.value.selectedQuest
+
+        if (quest != null) {
+            // Completion data is expected.
+            if (qrCodeData.startsWith("c")) {
+                // Valid data.
+                if (qrCodeData == quest.completionData) {
+                    viewModelScope.launch {
+                        questsRepository.completeQuest(questId = quest.id)
+                    }
+                } else {
+                    // TODO: Show error message.
+                }
+            } else {
+                // TODO: Invalid data and show error message.
+            }
+        } else {
+            // Activation data is expected.
+            if (qrCodeData.startsWith("a")) {
+                // Valid data.
+                // TODO: Add logic to handle activation of quests.
+            } else {
+                // TODO: Invalid data and show error message.
+            }
         }
     }
 }
