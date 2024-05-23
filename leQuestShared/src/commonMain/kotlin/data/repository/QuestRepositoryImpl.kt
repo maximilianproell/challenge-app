@@ -13,6 +13,7 @@ import domain.repository.QuestsRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
@@ -71,7 +72,7 @@ class QuestRepositoryImpl(
                         timeLeftToComplete = timeLeftToComplete,
                     )
                 }
-        }
+        }.distinctUntilChanged()
 
     override suspend fun updateQuestsFromRemote() {
         val remoteQuests = questRemoteDataSource.getAllQuests()
