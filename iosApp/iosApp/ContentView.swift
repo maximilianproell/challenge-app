@@ -1,6 +1,6 @@
 import UIKit
 import SwiftUI
-import ComposeApp
+import LeQuestShared
 
 struct HomeScreenView: UIViewControllerRepresentable {
     var onOpenCamera: () -> Void

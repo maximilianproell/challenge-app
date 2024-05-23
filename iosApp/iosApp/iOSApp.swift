@@ -1,5 +1,5 @@
 import SwiftUI
-import ComposeApp
+import LeQuestShared
 
 @main
 struct iOSApp: App {

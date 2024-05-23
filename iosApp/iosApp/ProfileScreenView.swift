@@ -1,6 +1,6 @@
 import Foundation
 import SwiftUI
-import ComposeApp
+import LeQuestShared
 
 struct ProfileScreenView: UIViewControllerRepresentable {
 

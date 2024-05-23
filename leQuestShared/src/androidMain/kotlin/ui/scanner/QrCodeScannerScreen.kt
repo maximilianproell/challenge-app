@@ -29,8 +29,8 @@ import com.google.mlkit.vision.barcode.common.Barcode
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.result.ResultBackNavigator
-import lequestapp.composeapp.generated.resources.Res
-import lequestapp.composeapp.generated.resources.allow_camera_permission
+import lequestapp.lequestshared.generated.resources.Res
+import lequestapp.lequestshared.generated.resources.allow_camera_permission
 import org.jetbrains.compose.resources.stringResource
 
 private val logger = Logger.withTag("QrCodeScannerScreen")

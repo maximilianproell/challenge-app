@@ -45,8 +45,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import domain.model.Quest
-import lequestapp.composeapp.generated.resources.Res
-import lequestapp.composeapp.generated.resources.settings
+import lequestapp.lequestshared.generated.resources.Res
+import lequestapp.lequestshared.generated.resources.settings
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import ui.map.QuestsMap

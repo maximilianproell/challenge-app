@@ -7,8 +7,8 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import getPlatform
-import lequestapp.composeapp.generated.resources.Res
-import lequestapp.composeapp.generated.resources.back
+import lequestapp.lequestshared.generated.resources.Res
+import lequestapp.lequestshared.generated.resources.back
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import lequestapp.composeapp.generated.resources.Res
-import lequestapp.composeapp.generated.resources.home_error_activation_data_does_not_match
-import lequestapp.composeapp.generated.resources.home_error_activation_data_invalid
+import lequestapp.lequestshared.generated.resources.Res
+import lequestapp.lequestshared.generated.resources.home_error_activation_data_does_not_match
+import lequestapp.lequestshared.generated.resources.home_error_activation_data_invalid
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
