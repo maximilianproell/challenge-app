@@ -51,14 +51,11 @@ kotlin {
 
             // Compose destinations navigation framework
             implementation(libs.compose.destinations.core)
-            configurations["ksp"].dependencies.add(libs.compose.destinations.ksp.get())
 
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.navigation)
         }
         iosMain.dependencies {
-            implementation(libs.stately.common)
-
             // Ktor
             implementation(libs.ktor.client.darwin)
         }
@@ -91,7 +88,6 @@ kotlin {
             // Room database
             implementation(libs.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
-            configurations["ksp"].dependencies.add(libs.room.compiler.get())
         }
     }
 }
@@ -136,6 +132,15 @@ android {
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
     }
+}
+
+dependencies {
+    add("kspAndroid", libs.room.compiler)
+    add("kspAndroid", libs.compose.destinations.ksp)
+
+    add("kspIosSimulatorArm64", libs.room.compiler)
+    add("kspIosX64", libs.room.compiler)
+    add("kspIosArm64", libs.room.compiler)
 }
 
 room {
