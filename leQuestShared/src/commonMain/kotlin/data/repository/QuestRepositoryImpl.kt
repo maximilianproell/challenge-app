@@ -41,38 +41,24 @@ class QuestRepositoryImpl(
             // Filter out completed and non-visible quests.
             list.filter { it.questEntity.isVisibleOnMap && !it.questEntity.wasCompletedByUser }
                 .map {
-                    val timeLeftToComplete = it.questEntity.timeToComplete?.let { timeToCompleteInMinutes ->
-                        val activationInfo = it.activeInfo
-
-                        if (activationInfo == null) timeToCompleteInMinutes else {
-                            val timePassed =
-                                (Clock.System.now().toEpochMilliseconds() - activationInfo.startTimestamp)
-                                    .milliseconds
-                                    .inWholeMinutes
-                            (timeToCompleteInMinutes - timePassed).toInt()
-                        }
-                    }
-
-                    if (timeLeftToComplete != null) {
-                        if (timeLeftToComplete <= 0) {
+                    it.toDomain(
+                        isAtLeastOneQuestActive = isAtLeastOneQuestActive,
+                        onTimeRanOut = {
                             questLocalDataSource.setQuestToFailed(
                                 activeQuest = ActiveQuestEntity(questId = it.questEntity.id, startTimestamp = 0)
                             )
                         }
-                    }
-
-                    it.questEntity.toDomain(
-                        questActivationInfo = it.activeInfo?.let { activeInfo ->
-                            QuestActivationInfo(
-                                activationTimeStampMilliseconds = activeInfo.startTimestamp,
-                            )
-                        },
-                        // Only clickable, if no other quest is active.
-                        isClickable = !isAtLeastOneQuestActive,
-                        timeLeftToComplete = timeLeftToComplete,
                     )
                 }
         }.distinctUntilChanged()
+
+    override suspend fun getAllVisibleQuests(): List<Quest> {
+        return questLocalDataSource.getAllQuestsWithActivationInfo()
+            .filter { it.questEntity.isVisibleOnMap && !it.questEntity.wasCompletedByUser }
+            .map { questEntityWithActivationInfo ->
+                questEntityWithActivationInfo.toDomain(isAtLeastOneQuestActive = false, onTimeRanOut = {})
+            }
+    }
 
     override suspend fun updateQuestsFromRemote() {
         val remoteQuests = questRemoteDataSource.getAllQuests()

@@ -19,6 +19,10 @@ interface QuestDao {
     @Transaction
     fun observeAllQuestsWithActivationState(): Flow<List<QuestEntityWithActivationInfo>>
 
+    @Query("SELECT * FROM quest_table")
+    @Transaction
+    suspend fun getAllQuestsWithActivationInfo(): List<QuestEntityWithActivationInfo>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertQuests(quests: List<QuestEntity>)
 

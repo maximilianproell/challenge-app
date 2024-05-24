@@ -28,13 +28,21 @@ class HomeScreenViewModel : ViewModel(), KoinComponent {
     init {
         viewModelScope.launch {
             launch {
+                _screenState.update { it.copy(loadingDataFromRemote = true) }
                 try {
                     questsRepository.updateQuestsFromRemote()
                 } catch (exception: Exception) {
                     if (exception is CancellationException) throw exception
                     logger.e { "Error occurred updating the quests from remote: ${exception.stackTraceToString()}" }
                     // else TODO: Show some kind of network error so the user knows that data may be stale.
+                } finally {
+                    _screenState.update { it.copy(loadingDataFromRemote = false) }
                 }
+
+                // Preselect quest. Only daily quests may be preselected.
+                val dailyQuests = questsRepository.getAllVisibleQuests().filter { it.isDaily }
+                val selectedQuest = dailyQuests.find { it.activationInfo != null } ?: dailyQuests.randomOrNull()
+                onQuestSelected(selectedQuest)
             }
 
             questsRepository.observeVisibleQuests()

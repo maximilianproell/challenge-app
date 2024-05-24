@@ -13,6 +13,7 @@ interface QuestLocalDataSource {
     suspend fun getAllQuests(): List<QuestEntity>
     fun observeAllQuests(): Flow<List<QuestEntity>>
     fun observeAllQuestsWithActivationState(): Flow<List<QuestEntityWithActivationInfo>>
+    suspend fun getAllQuestsWithActivationInfo(): List<QuestEntityWithActivationInfo>
     suspend fun updateQuestsFromRemote(updates: List<QuestRemoteUpdate>)
     suspend fun updateQuestFromRemote(update: QuestRemoteUpdate)
     suspend fun setQuestAsCompleted(questId: String)
@@ -39,6 +40,10 @@ class QuestLocalDataSourceImpl(
 
     override fun observeAllQuestsWithActivationState(): Flow<List<QuestEntityWithActivationInfo>> {
         return questDao.observeAllQuestsWithActivationState()
+    }
+
+    override suspend fun getAllQuestsWithActivationInfo(): List<QuestEntityWithActivationInfo> {
+        return questDao.getAllQuestsWithActivationInfo()
     }
 
     override suspend fun updateQuestsFromRemote(updates: List<QuestRemoteUpdate>) {
