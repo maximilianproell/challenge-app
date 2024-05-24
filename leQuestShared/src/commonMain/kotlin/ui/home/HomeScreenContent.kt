@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.RocketLaunch
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -49,6 +50,7 @@ import domain.model.Quest
 import lequestapp.lequestshared.generated.resources.Res
 import lequestapp.lequestshared.generated.resources.general_complete
 import lequestapp.lequestshared.generated.resources.home_accept_quest_button_text
+import lequestapp.lequestshared.generated.resources.home_bottom_sheet_select_quest_label
 import lequestapp.lequestshared.generated.resources.home_get_me_there_button_text
 import lequestapp.lequestshared.generated.resources.settings
 import org.jetbrains.compose.resources.StringResource
@@ -58,6 +60,7 @@ import ui.map.QuestsMap
 
 data class HomeScreenState(
     val selectedQuest: Quest? = null,
+    val loadingDataFromRemote: Boolean = false,
     val quests: List<Quest> = emptyList(),
     val errorStringResource: StringResource? = null,
 )
@@ -89,13 +92,25 @@ fun HomeScreenContent(
                     .windowInsetsPadding(WindowInsets.navigationBars),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                screenState.selectedQuest?.let { selectedQuest ->
-                    QuestModalBottomSheetContent(
-                        quest = selectedQuest,
-                        onAcceptQuestClick = viewModel::onQuestAccepted,
-                        onGetMeThereClick = onGetMeThereClick,
-                        onCompleteClick = onCompleteClick
-                    )
+                if (screenState.loadingDataFromRemote) {
+                    // Waiting for remote data to load.
+                    CircularProgressIndicator()
+                } else {
+                    screenState.selectedQuest?.let { selectedQuest ->
+                        QuestModalBottomSheetContent(
+                            quest = selectedQuest,
+                            onAcceptQuestClick = viewModel::onQuestAccepted,
+                            onGetMeThereClick = onGetMeThereClick,
+                            onCompleteClick = onCompleteClick
+                        )
+                    }
+
+                    if (screenState.selectedQuest == null) {
+                        Text(
+                            text = stringResource(Res.string.home_bottom_sheet_select_quest_label),
+                            style = MaterialTheme.typography.labelMedium,
+                        )
+                    }
                 }
             }
         },

@@ -9,4 +9,5 @@
     <string name="home_error_completion_data_invalid">It seems you have scanned a QR code which is not meant to complete a quest. Please try again.</string>"
     <string name="home_error_activation_data_does_not_match">This seems to be the wrong QR code. Please try again.</string>
     <string name="home_error_activation_data_invalid">It seems you have scanned a QR code which is not meant to activate a quest. Please try again.</string>"
+    <string name="home_bottom_sheet_select_quest_label">Please select a quest</string>
 </resources>
