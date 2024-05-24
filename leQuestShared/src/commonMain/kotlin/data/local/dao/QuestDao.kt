@@ -1,10 +1,6 @@
 package data.local.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import data.local.entity.QuestEntity
 import data.local.entity.QuestEntityWithActivationInfo
 import data.local.entity.QuestRemoteUpdate
@@ -20,6 +16,7 @@ interface QuestDao {
     fun observeAllQuests(): Flow<List<QuestEntity>>
 
     @Query("SELECT * FROM quest_table")
+    @Transaction
     fun observeAllQuestsWithActivationState(): Flow<List<QuestEntityWithActivationInfo>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

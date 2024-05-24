@@ -1,7 +1,10 @@
 <resources>
     <string name="settings">Settings</string>
     <string name="back">Back</string>
+    <string name="general_complete">Complete</string>
     <string name="allow_camera_permission">We need the permission to use your camera to scan the QR code.</string>
+    <string name="home_accept_quest_button_text">Challenge accepted!</string>
+    <string name="home_get_me_there_button_text">Get me there!</string>
     <string name="home_error_completion_data_does_not_match">This seems to be the wrong QR code. Please try again.</string>
     <string name="home_error_completion_data_invalid">It seems you have scanned a QR code which is not meant to complete a quest. Please try again.</string>"
     <string name="home_error_activation_data_does_not_match">This seems to be the wrong QR code. Please try again.</string>

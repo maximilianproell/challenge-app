@@ -43,9 +43,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import domain.model.Quest
 import lequestapp.lequestshared.generated.resources.Res
+import lequestapp.lequestshared.generated.resources.general_complete
+import lequestapp.lequestshared.generated.resources.home_accept_quest_button_text
+import lequestapp.lequestshared.generated.resources.home_get_me_there_button_text
 import lequestapp.lequestshared.generated.resources.settings
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
@@ -145,7 +149,8 @@ private fun ColumnScope.QuestModalBottomSheetContent(
 
     Text(
         text = quest.name,
-        style = MaterialTheme.typography.headlineMedium
+        style = MaterialTheme.typography.headlineMedium,
+        textAlign = TextAlign.Center,
     )
 
     if (timeLeftText != null) {
@@ -153,24 +158,26 @@ private fun ColumnScope.QuestModalBottomSheetContent(
         Spacer(modifier = Modifier.height(16.dp))
     }
 
-    Text(text = quest.description, style = MaterialTheme.typography.headlineSmall)
+    Text(
+        text = quest.description,
+        style = MaterialTheme.typography.headlineSmall,
+        textAlign = TextAlign.Center
+    )
 
     Spacer(modifier = Modifier.height(16.dp))
-
-    // TODO: add string resources
 
     if (quest.activationInfo == null) {
         Button(onClick = { onAcceptQuestClick(quest) }) {
             Icon(imageVector = Icons.Default.RocketLaunch, contentDescription = null)
             Spacer(Modifier.width(8.dp))
-            Text("Challenge accepted!")
+            Text(stringResource(Res.string.home_accept_quest_button_text))
         }
     } else {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             Button(onClick = onGetMeThereClick) {
                 Icon(imageVector = Icons.Default.Place, contentDescription = null)
                 Spacer(Modifier.width(8.dp))
-                Text("Get me there!")
+                Text(stringResource(Res.string.home_get_me_there_button_text))
             }
 
             Spacer(Modifier.width(8.dp))
@@ -178,7 +185,7 @@ private fun ColumnScope.QuestModalBottomSheetContent(
             Button(onClick = onCompleteClick) {
                 Icon(imageVector = Icons.Default.Check, contentDescription = null)
                 Spacer(Modifier.width(8.dp))
-                Text("Complete")
+                Text(stringResource(Res.string.general_complete))
             }
         }
     }
