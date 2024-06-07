@@ -4,6 +4,8 @@ import data.local.AppDatabase
 import data.local.DataBaseFactory
 import data.local.QuestLocalDataSource
 import data.local.QuestLocalDataSourceImpl
+import data.local.UserLocalDataSource
+import data.local.UserLocalDataSourceImpl
 import data.local.getRoomDatabase
 import org.koin.dsl.module
 
@@ -17,6 +19,12 @@ val localDataModule = module {
         QuestLocalDataSourceImpl(
             questDao = appDatabase.getQuestDao(),
             activeQuestDao = appDatabase.getActiveQuestDao(),
+        )
+    }
+    single<UserLocalDataSource> {
+        val appDatabase: AppDatabase = get()
+        UserLocalDataSourceImpl(
+            userDao = appDatabase.getUserDao(),
         )
     }
 }

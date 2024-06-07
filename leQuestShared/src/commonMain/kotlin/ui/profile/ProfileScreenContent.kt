@@ -15,12 +15,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import ui.theme.LeQuestAppTheme
 
 @Composable
 fun ProfileScreenContent(modifier: Modifier) {
@@ -64,13 +67,30 @@ fun ProgressBar(
 ) {
     Box(
         modifier = modifier
+            .clip(RoundedCornerShape(15.dp))
             .drawBehind {
                 val height = size.height
                 val width = size.width * progressPercent
                 drawRect(color = barColor, size = Size(width = width, height = height))
             }
-            .border(width = 2.dp, color = Color.Black, shape = RoundedCornerShape(5.dp)),
+            .border(width = 2.dp, color = Color.Black, shape = RoundedCornerShape(15.dp)),
         contentAlignment = Alignment.Center) {
         barText()
+    }
+}
+
+@Composable
+@Preview
+fun ProgressBarPreview() {
+    LeQuestAppTheme {
+        ProgressBar(
+            progressPercent = .8f,
+            barColor = MaterialTheme.colorScheme.secondaryContainer,
+            barText = {
+                Text("1000 / 1200 XP", color = MaterialTheme.colorScheme.onSecondaryContainer)
+            },
+            modifier = Modifier.fillMaxWidth().height(48.dp)
+        )
+
     }
 }
