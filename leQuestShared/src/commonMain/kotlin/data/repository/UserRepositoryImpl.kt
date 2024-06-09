@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class UserRepositoryImpl(
-    private val applicationScope: CoroutineScope,
+    applicationScope: CoroutineScope,
     private val userLocalDataSource: UserLocalDataSource,
 ) : UserRepository {
 
@@ -33,5 +33,13 @@ class UserRepositoryImpl(
 
     override fun observeUser(): Flow<User> {
         return userLocalDataSource.observeUser().map { it.toDomain() }
+    }
+
+    override suspend fun increaseXpOfUser(additionalXp: Int) {
+        userLocalDataSource.getUser()?.let { localUser ->
+            userLocalDataSource.updateUser(
+                localUser.copy(xp = localUser.xp + additionalXp)
+            )
+        }
     }
 }

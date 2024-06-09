@@ -8,8 +8,8 @@ import data.mapper.toDomain
 import data.mapper.toEntity
 import data.remote.QuestRemoteDataSource
 import domain.model.Quest
-import domain.model.QuestActivationInfo
 import domain.repository.QuestsRepository
+import domain.repository.UserRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -17,12 +17,12 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
-import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 class QuestRepositoryImpl(
     private val questRemoteDataSource: QuestRemoteDataSource,
-    private val questLocalDataSource: QuestLocalDataSource
+    private val questLocalDataSource: QuestLocalDataSource,
+    private val userRepository: UserRepository,
 ) : QuestsRepository {
 
     private val logger = Logger.withTag(this::class.simpleName!!)
@@ -79,10 +79,11 @@ class QuestRepositoryImpl(
         )
     }
 
-    override suspend fun completeQuest(questId: String) {
-        questLocalDataSource.setQuestAsCompleted(questId)
+    override suspend fun completeQuest(quest: Quest) {
+        questLocalDataSource.setQuestAsCompleted(quest.id)
         questLocalDataSource.setQuestToInactive(
-            ActiveQuestEntity(questId = questId, startTimestamp = 0)
+            ActiveQuestEntity(questId = quest.id, startTimestamp = 0)
         )
+        userRepository.increaseXpOfUser(quest.xp)
     }
 }

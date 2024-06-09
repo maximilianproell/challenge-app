@@ -93,7 +93,7 @@ class HomeScreenViewModel : ViewModel(), KoinComponent {
                 // Valid data.
                 if (qrCodeData == quest.completionData) {
                     viewModelScope.launch {
-                        questsRepository.completeQuest(questId = quest.id)
+                        questsRepository.completeQuest(quest = quest)
                     }
                 } else {
                     _screenState.update {

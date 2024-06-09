@@ -11,6 +11,8 @@ interface UserLocalDataSource {
 
     suspend fun insertUser(user: UserEntity)
 
+    suspend fun updateUser(user: UserEntity)
+
 }
 
 class UserLocalDataSourceImpl(
@@ -21,4 +23,5 @@ class UserLocalDataSourceImpl(
     override suspend fun getUser(): UserEntity? = userDao.getUser()
 
     override suspend fun insertUser(user: UserEntity) = userDao.insertUser(user)
+    override suspend fun updateUser(user: UserEntity) = userDao.updateUser(user)
 }

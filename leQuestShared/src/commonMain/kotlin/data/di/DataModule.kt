@@ -19,7 +19,11 @@ val dataModule = module {
         CoroutineScope(SupervisorJob() + Dispatchers.IO)
     }
     single<QuestsRepository> {
-        QuestRepositoryImpl(questLocalDataSource = get(), questRemoteDataSource = get())
+        QuestRepositoryImpl(
+            questLocalDataSource = get(),
+            questRemoteDataSource = get(),
+            userRepository = get(),
+        )
     }
     single<UserRepository> {
         UserRepositoryImpl(

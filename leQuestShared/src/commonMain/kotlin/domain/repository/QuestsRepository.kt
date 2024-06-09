@@ -19,5 +19,5 @@ interface QuestsRepository {
 
     suspend fun activateQuest(quest: Quest)
 
-    suspend fun completeQuest(questId: String)
+    suspend fun completeQuest(quest: Quest)
 }
