@@ -13,12 +13,10 @@ import kotlinx.coroutines.launch
 import lequestapp.lequestshared.generated.resources.Res
 import lequestapp.lequestshared.generated.resources.home_error_activation_data_does_not_match
 import lequestapp.lequestshared.generated.resources.home_error_activation_data_invalid
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class HomeScreenViewModel : ViewModel(), KoinComponent {
-
-    private val questsRepository: QuestsRepository by inject()
+class HomeScreenViewModel(
+    private val questsRepository: QuestsRepository
+) : ViewModel() {
 
     private val _screenState = MutableStateFlow(HomeScreenState())
     val screenState = _screenState.asStateFlow()

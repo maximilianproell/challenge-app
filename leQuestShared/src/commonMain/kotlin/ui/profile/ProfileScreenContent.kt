@@ -21,16 +21,14 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ui.theme.LeQuestAppTheme
+import ui.utils.koinViewModel
 
 @Composable
 fun ProfileScreenContent(modifier: Modifier) {
 
-    val viewModel: ProfileScreenViewModel = viewModel {
-        ProfileScreenViewModel()
-    }
+    val viewModel: ProfileScreenViewModel = koinViewModel()
 
     val screenState by viewModel.screenState.collectAsState()
 

@@ -10,6 +10,7 @@ import com.ramcosta.composedestinations.generated.destinations.QrCodeScannerScre
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.ResultRecipient
 import com.ramcosta.composedestinations.result.onResult
+import ui.utils.koinViewModel
 
 @Composable
 @Destination<RootGraph>(
@@ -19,7 +20,7 @@ fun HomeScreen(
     navigator: DestinationsNavigator,
     qrStringResultRecipient: ResultRecipient<QrCodeScannerScreenDestination, String>
 ) {
-    val viewModel = viewModel { HomeScreenViewModel() }
+    val viewModel = koinViewModel<HomeScreenViewModel>()
 
     qrStringResultRecipient.onResult { qrCodeData ->
         Logger.withTag("HomeScreen").d { "Received qr code string on caller site: $qrCodeData" }

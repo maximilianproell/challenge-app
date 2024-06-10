@@ -5,6 +5,7 @@ import data.di.dataModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import ui.di.viewModelModule
 
 class LeQuestApplication: Application() {
 
@@ -15,7 +16,7 @@ class LeQuestApplication: Application() {
             androidLogger()
             androidContext(this@LeQuestApplication)
 
-            modules(dataModule)
+            modules(dataModule, viewModelModule)
         }
     }
 }
