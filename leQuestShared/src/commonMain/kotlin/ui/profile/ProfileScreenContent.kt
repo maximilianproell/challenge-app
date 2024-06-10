@@ -41,10 +41,10 @@ fun ProfileScreenContent(modifier: Modifier) {
 
         Text(screenState.level, fontWeight = FontWeight.Bold)
         ProgressBar(
-            progressPercent = .8f,
+            progressPercent = screenState.xp / 1000f,
             barColor = MaterialTheme.colorScheme.primaryContainer,
             barText = {
-                Text("1000 / 1200 XP", color = MaterialTheme.colorScheme.onPrimaryContainer)
+                Text("${screenState.xp} / 1000 XP", color = MaterialTheme.colorScheme.onPrimaryContainer)
             },
             modifier = Modifier.fillMaxWidth().height(48.dp)
         )
@@ -54,6 +54,7 @@ fun ProfileScreenContent(modifier: Modifier) {
 data class ProfileScreenState(
     val userName: String = "",
     val level: String = "",
+    val xp: Int = 0,
 )
 
 @Composable
