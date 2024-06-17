@@ -7,14 +7,7 @@ import LeQuestShared
     private let repositoryHelper = RepositoryHelper()
     
     func onCompleteChallenge(completionCode: String, onFinish: @escaping () -> Void) {
-        Task.init {
-            do {
-                try await repositoryHelper.homeScreenViewModel.onQrCodeScanned(qrCodeData: completionCode)
-                onFinish()
-            } catch {
-                // Do nothing for now
-            }
-        }
-
+        repositoryHelper.homeScreenViewModel.onQrCodeScanned(qrCodeData: completionCode)
+        onFinish()
     }
 }
