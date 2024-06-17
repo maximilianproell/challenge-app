@@ -18,11 +18,15 @@ const val DATABASE_NAME = "quest_app_room.db"
 
 @Database(entities = [QuestEntity::class, ActiveQuestEntity::class, UserEntity::class], version = 1)
 @TypeConverters(Converters::class)
-abstract class AppDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase(), Db {
     abstract fun getQuestDao(): QuestDao
 
     abstract fun getActiveQuestDao(): ActiveQuestDao
     abstract fun getUserDao(): UserDao
+
+    override fun clearAllTables() {
+        super.clearAllTables()
+    }
 }
 
 fun getRoomDatabase(
@@ -36,4 +40,10 @@ fun getRoomDatabase(
 
 expect class DataBaseFactory() {
     fun getRoomDatabaseBuilder(): RoomDatabase.Builder<AppDatabase>
+}
+
+// FIXME: Added a hack to resolve below issue:
+// Class 'AppDatabase_Impl' is not abstract and does not implement abstract base class member 'clearAllTables'.
+interface Db {
+    fun clearAllTables() {}
 }

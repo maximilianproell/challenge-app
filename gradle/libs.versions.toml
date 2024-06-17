@@ -1,5 +1,5 @@
 [versions]
-agp = "8.4.1"
+agp = "8.5.0"
 android-compileSdk = "34"
 android-minSdk = "24"
 android-targetSdk = "34"
@@ -13,7 +13,7 @@ androidx-test-junit = "1.1.5"
 compose = "1.6.7"
 compose-plugin = "1.6.10"
 junit = "4.13.2"
-kotlin = "1.9.23"
+kotlin = "2.0.0"
 google-maps = "4.3.3"
 supabase = "2.2.3"
 ktor = "2.3.9"
@@ -24,11 +24,11 @@ mlKitVision = "1.3.0-beta02"
 cameraX = "1.3.3"
 accompanist = "0.35.0-alpha"
 compose-destinations = "2.1.0-beta03"
-ksp = "1.9.23-1.0.20"
+ksp = "2.0.0-1.0.22"
 kmp-viewmodel = "2.8.0"
 koin-bom = "3.5.6"
-room = "2.7.0-alpha02"
-androidx-sqlite = "2.5.0-alpha02"
+room = "2.7.0-alpha04"
+androidx-sqlite = "2.5.0-alpha04"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -80,6 +80,7 @@ android-camerax = ["androidx-camera-core", "androidx-camera-camera2", "androidx-
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }

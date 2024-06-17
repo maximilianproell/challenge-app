@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.serialization)
     alias(libs.plugins.buildKonfig)
     alias(libs.plugins.ksp)
@@ -12,6 +13,10 @@ plugins {
 }
 
 kotlin {
+    sourceSets.commonMain {
+        kotlin.srcDir("build/generated/ksp/metadata")
+    }
+
     androidTarget {
         compilations.all {
             kotlinOptions {
@@ -136,12 +141,14 @@ android {
 }
 
 dependencies {
-    add("kspAndroid", libs.room.compiler)
+    add("kspCommonMainMetadata", libs.room.compiler)
     add("kspAndroid", libs.compose.destinations.ksp)
+}
 
-    add("kspIosSimulatorArm64", libs.room.compiler)
-    add("kspIosX64", libs.room.compiler)
-    add("kspIosArm64", libs.room.compiler)
+tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().configureEach {
+    if (name != "kspCommonMainKotlinMetadata" ) {
+        dependsOn("kspCommonMainKotlinMetadata")
+    }
 }
 
 room {
