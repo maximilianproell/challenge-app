@@ -9,7 +9,8 @@ struct CameraScreenView: View {
     
     var body: some View {
         Text("Just a placeholder")
-        CodeScannerView(codeTypes: [.qr], simulatedData: "Hello just a test from iOS", completion: handleScan)
+        // That's the completion data of "Jogging at Tempelhofer Feld".
+        CodeScannerView(codeTypes: [.qr], simulatedData: "c_10307727-23bd-4305-bd3d-b130c88436d2", completion: handleScan)
     }
     
     func handleScan(result: Result<ScanResult, ScanError>) {
